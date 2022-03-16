@@ -19,6 +19,11 @@ CONFIG += console
 # Input
 HEADERS += src/core/automaton.hpp\
            src/core/common.hpp \
+           src/gui/common.hpp \
+           src/gui/script_editor.hpp \
+           src/gui/rule_editor.hpp \
+           src/gui/viewer.hpp \
+           src/gui/main_window.hpp \
            third_party/lua/lapi.h \
            third_party/lua/lauxlib.h \
            third_party/lua/lcode.h \
@@ -49,6 +54,10 @@ HEADERS += src/core/automaton.hpp\
            third_party/lua/lzio.h
 SOURCES += src/core/automaton.cpp \
            src/gui/main.cpp \
+           src/gui/script_editor.cpp \
+           src/gui/rule_editor.cpp \
+           src/gui/viewer.cpp \
+           src/gui/main_window.cpp \
            third_party/lua/lapi.c \
            third_party/lua/lauxlib.c \
            third_party/lua/lbaselib.c \
