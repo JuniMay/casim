@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>opengl/viewer.vert</file>
+        <file>opengl/viewer.frag</file>
+        <file>assets/evolve.png</file>
+        <file>assets/evolve_step.png</file>
+        <file>assets/file.png</file>
+        <file>assets/stop.png</file>
+        <file>assets/reset.png</file>
+    </qresource>
+</RCC>

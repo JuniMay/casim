@@ -8,5 +8,6 @@
 *.a
 *.o
 *.pro.user
+*.swp
 .qmake.stash
 Makefile
