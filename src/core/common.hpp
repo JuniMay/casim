@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stack>
+#include <vector>
 
 #include <iostream>
 #include "third_party/xtensor/xio.hpp"

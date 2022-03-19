@@ -39,7 +39,10 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
-#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QStackedLayout>
+//#include <QtWidgets/QStackedWidget>
+//#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeView>

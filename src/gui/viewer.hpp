@@ -8,6 +8,8 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
  public:
   explicit Viewer(QWidget *parent = nullptr);
 
+  void set_automaton(QSharedPointer<casim::core::Automaton> automaton);
+
  protected:
   virtual void initializeGL() override;
   virtual void paintGL() override;
@@ -17,8 +19,23 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   virtual void wheelEvent(QWheelEvent *event) override;
   virtual void keyPressEvent(QKeyEvent *event) override;
 
+ signals:
+  // changes very frequently
+  void yaw_changed(const float &yaw);
+  void pitch_changed(const float &pitch);
+  // these two below are mainly used in initialization part
+  void sensitivity_changed(const float &sensitivity);
+  void move_speed_changed(const float &move_speed);
+
  public slots:
   void reset_camera();
+  void display_automaton();
+
+  // slots for xxx_set from config_editor
+  void set_yaw(const float &yaw);
+  void set_pitch(const float &pitch);
+  void set_sensitivity(const float &sensitivity);
+  void set_move_speed(const float &move_speed);
 
  private:
   QOpenGLVertexArrayObject vao_;
@@ -27,7 +44,7 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
 
   QVector<double> vertices_;
   QVector<QVector3D> cell_positions_;
-  QVector<QVector4D> cell_color_vectors_;
+  QVector<QVector3D> cell_color_vectors_;
 
   float yaw_;
   float pitch_;
@@ -42,7 +59,7 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
 
   QPoint last_pos_;
 
-  QPointer<casim::core::Automaton> automaton_;
+  QSharedPointer<casim::core::Automaton> automaton_;
 };
 
 #endif

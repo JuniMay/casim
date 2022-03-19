@@ -5,6 +5,7 @@ INCLUDEPATH += \
         . \
         ./src \
         ./third_party
+
 #CONFIG += console
 
 win32: LIBS += -lOpengl32 -lglu32 -lfreeglut
@@ -12,6 +13,7 @@ win32: LIBS += -lOpengl32 -lglu32 -lfreeglut
 HEADERS += \
     src/core/automaton.hpp\
     src/core/common.hpp \
+    src/core/utils.hpp \
     src/gui/common.hpp \
     src/gui/file_tree.hpp \
     src/gui/script_editor.hpp \
@@ -20,6 +22,7 @@ HEADERS += \
     src/gui/viewer.hpp \
     src/gui/main_window.hpp \
     src/gui/logger.hpp \
+    src/gui/viewer_config.hpp \
     third_party/lua/lapi.h \
     third_party/lua/lauxlib.h \
     third_party/lua/lcode.h \
@@ -50,6 +53,7 @@ HEADERS += \
     third_party/lua/lzio.h
 SOURCES += \
     src/core/automaton.cpp \
+    src/core/utils.cpp \
     src/gui/file_tree.cpp \
     src/gui/main.cpp \
     src/gui/script_editor.cpp \
@@ -58,6 +62,7 @@ SOURCES += \
     src/gui/viewer.cpp \
     src/gui/logger.cpp \
     src/gui/main_window.cpp \
+    src/gui/viewer_config.cpp \
     third_party/lua/lapi.c \
     third_party/lua/lauxlib.c \
     third_party/lua/lbaselib.c \

@@ -14,6 +14,9 @@ class MainWindow : public QMainWindow {
  public:
   MainWindow(QWidget *parent = nullptr);
 
+ public slots:
+  void evolve();
+
  private:
   QPointer<QWidget> widget_;
 
@@ -28,6 +31,8 @@ class MainWindow : public QMainWindow {
   QPointer<Logger> logger_;
 
   QPointer<ToolBar> tool_bar_;
+
+  QSharedPointer<casim::core::Automaton> automaton_;
 };
 
 #endif

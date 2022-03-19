@@ -7,7 +7,7 @@ class FileTree : public QTreeView {
   Q_OBJECT
  public:
   explicit FileTree(QWidget *parent = nullptr);
-
+ public slots:
  private:
   QPointer<QFileSystemModel> model_;
 };

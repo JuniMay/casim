@@ -1,3 +1,8 @@
+name          = "Conway's Game of Life"
+default_color = "#ffffff"
+color         = {"#000000"}
+state_count   = 2;
+
 function local_evolve(x)
     sum = 0
     for i = 1, 9 do
