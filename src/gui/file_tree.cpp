@@ -12,4 +12,21 @@ FileTree::FileTree(QWidget *parent) : QTreeView{parent} {
   this->setAnimated(false);
   this->setIndentation(20);
   this->setSortingEnabled(true);
+
+  connect(this, &FileTree::doubleClicked, this, open_file);
+}
+
+void FileTree::open_file(const QModelIndex &index) {
+  QFile file(model_->filePath(index));
+  QFileInfo info(model_->filePath(index));
+  if (info.suffix() != "lua") {
+    // TODO
+    return;
+  }
+  if (file.open(QFile::ReadOnly | QFile::Text)) {
+    QTextStream in(&file);
+    QString script = in.readAll();
+    file.close();
+    emit load_script_signal(script);
+  }
 }

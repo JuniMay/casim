@@ -26,8 +26,8 @@ Automaton::Automaton(const xt::xarray<size_t>& shape,
   local_states_.resize({local_states_size_});
   local_states_.fill(0);
 
-  state_cnt_ = 2;
-  state_color_list_ = {"#ffffff", "#000000"};
+  // state_cnt_ = 2;
+  // state_color_list_ = {"#ffffff", "#000000"};
 }  // namespace core
 
 Automaton::Automaton(const xt::xarray<size_t>& shape, const std::string& script,
@@ -51,8 +51,8 @@ Automaton::Automaton(const xt::xarray<size_t>& shape, const std::string& script,
 
   // TODO: better initialization
   // e.g. check if the script works
-  state_cnt_ = 2;
-  state_color_list_ = {"#ffffff", "#000000"};
+  // state_cnt_ = 2;
+  // state_color_list_ = {"#ffffff", "#000000"};
 }
 
 void Automaton::set_shape(const xt::xarray<size_t>& shape) {
@@ -73,6 +73,7 @@ void Automaton::set_shape(const xt::xarray<size_t>& shape) {
 
 void Automaton::set_script(const std::string& script) {
   script_ = script;
+  //  std::cout << script_ << std::endl;
   fetch_ca_name();
   fetch_state_cnt();
   fetch_state_color_list();
@@ -134,6 +135,7 @@ void Automaton::evolve_by_step() {
   xt::xarray<size_t> c;
   c.resize({dim_});
   evolve_by_step_helper(L, c, 0);
+  std::cout << "OK" << std::endl;
   lua_close(L);
 }
 
@@ -236,11 +238,12 @@ void Automaton::fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
 
 // native recursive
 // TODO: use stack
+// TODO: error handling
 void Automaton::evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c,
                                       size_t axis) {
   if (axis == dim_) {
     lua_getglobal(L, "local_evolve");
-    if (lua_isfunction(L, -1)) {
+    if (!lua_isfunction(L, -1)) {
       // TODO
       return;
     }
@@ -254,7 +257,7 @@ void Automaton::evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c,
     lua_pcall(L, 1, 1, 0);
     // std::cout << c << " " << lua_tointeger(L, -1) << std::endl;
     set_cell_state(c, lua_tointeger(L, -1));
-    lua_pop(L, -1);
+    lua_pop(L, 1);
     return;
   }
   for (size_t idx = 0; idx < shape_[axis]; ++idx) {

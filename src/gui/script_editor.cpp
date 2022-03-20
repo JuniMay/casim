@@ -39,7 +39,7 @@ ScriptHighlighter::ScriptHighlighter(QTextDocument *parent)
 
   number_format_.setForeground(Qt::darkMagenta);
   rule.regex_rule =
-      QRegularExpression(QStringLiteral("\\b[0-9]+\\b"));
+      QRegularExpression(QStringLiteral("[0-9]+"));
   rule.format = number_format_;
   highting_rules_.append(rule);
 }
@@ -78,5 +78,8 @@ ScriptEditor::ScriptEditor(QWidget *parent): QWidget(parent) {
 
   layout_->addWidget(editor_);
 
-  
+}
+
+void ScriptEditor::load_script(const QString& script) {
+  editor_->setText(script);
 }

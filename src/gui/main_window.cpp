@@ -48,30 +48,53 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   connect(tool_bar_, &ToolBar::evolve_signal, this, &MainWindow::evolve);
 
   connect(viewer_, &Viewer::yaw_changed, config_editor_,
-          &ConfigEditor::viewer_yaw_changed);
+          &ConfigEditor::viewer_yaw_changed_from_viewer);
   connect(viewer_, &Viewer::pitch_changed, config_editor_,
-          &ConfigEditor::viewer_pitch_changed);
+          &ConfigEditor::viewer_pitch_changed_from_viewer);
   connect(viewer_, &Viewer::sensitivity_changed, config_editor_,
-          &ConfigEditor::viewer_sensitivity_changed);
+          &ConfigEditor::viewer_sensitivity_changed_from_viewer);
   connect(viewer_, &Viewer::move_speed_changed, config_editor_,
-          &ConfigEditor::viewer_move_speed_changed);
+          &ConfigEditor::viewer_move_speed_changed_from_viewer);
 
-  connect(config_editor_, &ConfigEditor::viewer_yaw_set, viewer_,
-          &Viewer::set_yaw);
-  connect(config_editor_, &ConfigEditor::viewer_pitch_set, viewer_,
-          &Viewer::set_pitch);
-  connect(config_editor_, &ConfigEditor::viewer_sensitivity_set, viewer_,
-          &Viewer::set_sensitivity);
-  connect(config_editor_, &ConfigEditor::viewer_move_speed_set, viewer_,
-          &Viewer::set_move_speed);
+  connect(config_editor_, &ConfigEditor::viewer_yaw_changed_from_config,
+          viewer_, &Viewer::set_yaw);
+  connect(config_editor_, &ConfigEditor::viewer_pitch_changed_from_config,
+          viewer_, &Viewer::set_pitch);
+  connect(config_editor_, &ConfigEditor::viewer_sensitivity_changed_from_config,
+          viewer_, &Viewer::set_sensitivity);
+  connect(config_editor_, &ConfigEditor::viewer_move_speed_changed_from_config,
+          viewer_, &Viewer::set_move_speed);
+
+  connect(file_tree_, &FileTree::load_script_signal, script_editor_,
+          &ScriptEditor::load_script);
+
+  connect(file_tree_, &FileTree::load_script_signal, this,
+          &MainWindow::load_script);
+
+  automaton_->set_cell_state({15, 10}, 3);
+
+  automaton_->set_cell_state({14, 11}, 3);
+  automaton_->set_cell_state({14, 12}, 1);
+  automaton_->set_cell_state({14, 13}, 2);
+  automaton_->set_cell_state({14, 14}, 3);
+  automaton_->set_cell_state({14, 15}, 3);
+
+  automaton_->set_cell_state({15, 16}, 3);
+
+  automaton_->set_cell_state({16, 11}, 3);
+  automaton_->set_cell_state({16, 12}, 3);
+  automaton_->set_cell_state({16, 13}, 2);
+  automaton_->set_cell_state({16, 14}, 1);
+  automaton_->set_cell_state({16, 15}, 3);
 }
 
 void MainWindow::evolve() {
-  automaton_->set_cell_state({1, 2}, 1);
-  automaton_->set_cell_state({2, 3}, 1);
-  automaton_->set_cell_state({3, 3}, 1);
-  automaton_->set_cell_state({3, 2}, 1);
-  automaton_->set_cell_state({3, 1}, 1);
-  //  automaton_->evolve_by_step();
+  automaton_->evolve_by_step();
+  qDebug() << "evolve ok";
   viewer_->display_automaton();
+}
+
+void MainWindow::load_script(const QString& script) {
+  qDebug() << "load!";
+  automaton_->set_script(script.toLocal8Bit().data());
 }

@@ -31,6 +31,9 @@ class ScriptEditor : public QWidget {
  public:
   explicit ScriptEditor(QWidget *parent = nullptr);
 
+ public slots:
+  void load_script(const QString &script);
+
  private:
   QPointer<QTextEdit> editor_;
   QPointer<ScriptHighlighter> script_highlighter_;

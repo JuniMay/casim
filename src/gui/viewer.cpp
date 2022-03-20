@@ -109,7 +109,7 @@ void Viewer::mouseMoveEvent(QMouseEvent *event) {
     //    qDebug() << dx << dy;
     yaw_ -= dx * sensitivity_;
     pitch_ += dy * sensitivity_;
-  
+
     emit yaw_changed(yaw_);
     emit pitch_changed(pitch_);
 
@@ -217,9 +217,11 @@ void Viewer::display_automaton() {
       for (size_t k = 0; k < shape3d[2]; ++k) {
         uint32_t state = generation[{i, j, k}];
         if (state == 0) continue;
-        qDebug() << "not 0";
+        qDebug() << state;
         cell_positions_.push_back({(float)i, (float)j, (float)k});
+        qDebug() << state_color_list[state].c_str();
         color_vector.setNamedColor(state_color_list[state].c_str());
+        qDebug() << color_vector;
         cell_color_vectors_.push_back(QVector3D(
             color_vector.redF(), color_vector.greenF(), color_vector.blueF()));
       }

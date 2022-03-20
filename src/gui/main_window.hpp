@@ -15,6 +15,7 @@ class MainWindow : public QMainWindow {
   MainWindow(QWidget *parent = nullptr);
 
  public slots:
+  void load_script(const QString& script);
   void evolve();
 
  private:
