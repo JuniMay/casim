@@ -26,6 +26,7 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   // these two below are mainly used in initialization part
   void sensitivity_changed(const float &sensitivity);
   void move_speed_changed(const float &move_speed);
+  void cell_size_changed(const float &cell_size);
 
  public slots:
   void reset_camera();
@@ -36,6 +37,7 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   void set_pitch(const float &pitch);
   void set_sensitivity(const float &sensitivity);
   void set_move_speed(const float &move_speed);
+  void set_cell_size(const float &cell_size);
 
  private:
   QOpenGLVertexArrayObject vao_;
@@ -50,6 +52,7 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   float pitch_;
   float sensitivity_;
   float move_speed_;
+  float cell_size_;
 
   QVector3D camera_pos_;
   QVector3D camera_target_;
@@ -60,6 +63,9 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   QPoint last_pos_;
 
   QSharedPointer<casim::core::Automaton> automaton_;
+
+
+  QColor background_color_ { QColor::fromRgb(0xff, 0xff, 0xff ) };
 };
 
 #endif

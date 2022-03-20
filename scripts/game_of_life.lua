@@ -1,7 +1,6 @@
-name          = "Conway's Game of Life"
-default_color = "#ffffff"
-color         = {"#000000"}
-state_count   = 2;
+name        = "Conway's Game of Life"
+color       = {"#ffffff", "#000000"}
+state_count = 2;
 
 function local_evolve(x)
     sum = 0

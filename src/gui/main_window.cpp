@@ -55,6 +55,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
           &ConfigEditor::viewer_sensitivity_changed_from_viewer);
   connect(viewer_, &Viewer::move_speed_changed, config_editor_,
           &ConfigEditor::viewer_move_speed_changed_from_viewer);
+  connect(viewer_, &Viewer::cell_size_changed, config_editor_,
+          &ConfigEditor::viewer_cell_size_changed_from_viewer);
 
   connect(config_editor_, &ConfigEditor::viewer_yaw_changed_from_config,
           viewer_, &Viewer::set_yaw);
@@ -64,6 +66,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
           viewer_, &Viewer::set_sensitivity);
   connect(config_editor_, &ConfigEditor::viewer_move_speed_changed_from_config,
           viewer_, &Viewer::set_move_speed);
+  connect(config_editor_, &ConfigEditor::viewer_cell_size_changed_from_config,
+          viewer_, &Viewer::set_cell_size);
 
   connect(file_tree_, &FileTree::load_script_signal, script_editor_,
           &ScriptEditor::load_script);

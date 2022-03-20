@@ -1,7 +1,6 @@
-name          = "Wire World"
-default_color = "#ffffff"
-color         = {"#9400d3", "#ff3030", "#ffd700"}
-state_count   = 4;
+name        = "Wire World"
+color       = {"#ffffff", "#9400d3", "#ff3030", "#ffd700"}
+state_count = 4;
 
 function local_evolve(x)
     if x[5] == 0 then

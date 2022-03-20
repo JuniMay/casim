@@ -7,6 +7,7 @@ Viewer::Viewer(QWidget *parent)
       pitch_(0.0),
       sensitivity_(0.002),
       move_speed_(0.1),
+      cell_size_(10),
       camera_pos_(-5.0f, 0.0f, 0.0f),
       camera_target_(0.0f, 0.0f, 0.0f),
       camera_direction_(cos(yaw_) * cos(pitch_), sin(pitch_),
@@ -51,6 +52,7 @@ void Viewer::initializeGL() {
   emit pitch_changed(pitch_);
   emit sensitivity_changed(sensitivity_);
   emit move_speed_changed(move_speed_);
+  emit cell_size_changed(cell_size_);
 
   this->initializeOpenGLFunctions();
 
@@ -78,7 +80,8 @@ void Viewer::initializeGL() {
   this->glEnable(GL_DEPTH_TEST);
 }
 void Viewer::paintGL() {
-  this->glClearColor(1, 1, 1, 1);
+  this->glClearColor(background_color_.redF(), background_color_.greenF(),
+                     background_color_.blueF(), 1);
   this->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   shader_program_.bind();
@@ -88,7 +91,13 @@ void Viewer::paintGL() {
   shader_program_.setUniformValue("view", view);
 
   QMatrix4x4 projection;
-  projection.perspective(45.0, width() / (double)height(), 0.1, 100.0);
+  // TODO: perspective/orthographic switch
+  // TODO: near/far plane auto adjust
+  // projection.perspective(45.0, width() / (double)height(), 0.1, 100.0);
+  projection.ortho(-(float)width() / 2 / cell_size_,
+                   (float)width() / 2 / cell_size_,
+                   -(float)height() / 2 / cell_size_,
+                   (float)height() / 2 / cell_size_, -100, 100.0f);
   shader_program_.setUniformValue("projection", projection);
   QOpenGLVertexArrayObject::Binder{&vao_};
   for (qsizetype i = 0; i < cell_positions_.size(); ++i) {
@@ -123,7 +132,9 @@ void Viewer::mouseMoveEvent(QMouseEvent *event) {
 }
 void Viewer::wheelEvent(QWheelEvent *event) {
   double n = event->angleDelta().y();
-  camera_pos_ += camera_direction_ * n * sensitivity_;
+  // camera_pos_ += camera_direction_ * n * sensitivity_;
+  cell_size_ *= 1 + n * sensitivity_;
+  emit cell_size_changed(cell_size_);
   update();
 }
 
@@ -134,9 +145,11 @@ void Viewer::keyPressEvent(QKeyEvent *event) {
   } else if (event->key() == Qt::Key_J) {
     camera_pos_.setY(camera_pos_.y() - move_speed_);
   } else if (event->key() == Qt::Key_W) {
-    camera_pos_ += camera_direction_ * move_speed_;
+    emit cell_size_changed(cell_size_);
+    cell_size_ *= 1 + move_speed_;
   } else if (event->key() == Qt::Key_S) {
-    camera_pos_ -= camera_direction_ * move_speed_;
+    emit cell_size_changed(cell_size_);
+    cell_size_ *= 1 - move_speed_;
   } else if (event->key() == Qt::Key_A) {
     camera_pos_ -=
         QVector3D::crossProduct(camera_direction_, camera_up_) * move_speed_;
@@ -175,8 +188,6 @@ void Viewer::keyPressEvent(QKeyEvent *event) {
 void Viewer::reset_camera() {
   yaw_ = 0.0;
   pitch_ = 0.0;
-  sensitivity_ = 0.002;
-  move_speed_ = 0.1;
   camera_pos_ = {-5.0f, 0.0f, 0.0f};
   camera_target_ = {0.0f, 0.0f, 0.0f};
   camera_direction_ = {(float)cos(yaw_) * (float)cos(pitch_),
@@ -188,8 +199,6 @@ void Viewer::reset_camera() {
 
   emit yaw_changed(yaw_);
   emit pitch_changed(pitch_);
-  emit sensitivity_changed(sensitivity_);
-  emit move_speed_changed(move_speed_);
 
   update();
 }
@@ -249,4 +258,8 @@ void Viewer::set_sensitivity(const float &sensitivity) {
 }
 void Viewer::set_move_speed(const float &move_speed) {
   move_speed_ = move_speed;
+}
+void Viewer::set_cell_size(const float &cell_size) {
+  cell_size_ = cell_size;
+  update();
 }

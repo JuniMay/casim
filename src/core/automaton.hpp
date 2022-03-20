@@ -33,11 +33,11 @@ class Automaton {
   void set_cell_state(const xt::xarray<size_t>& coordinate, uint32_t state);
 
   void fetch_local_states(const xt::xarray<size_t>& coordinate);
-  void evolve_by_step();
+  bool evolve_by_step();
 
-  void fetch_state_color_list();
-  void fetch_ca_name();
-  void fetch_state_cnt();
+  bool fetch_state_color_list();
+  bool fetch_ca_name();
+  bool fetch_state_cnt();
 
  private:
   // the lua script for the rule
@@ -57,13 +57,13 @@ class Automaton {
   xt::xarray<uint32_t> generation_1_;
 
   std::string ca_name_;  // name of cellular automaton
-  std::string default_color_;
+
   std::vector<std::string> state_color_list_;
   size_t state_cnt_;
 
   void fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
                                  xt::xarray<size_t>& c, size_t axis);
-  void evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c, size_t axis);
+  bool evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c, size_t axis);
   void calc_local_states_size();
 };
 

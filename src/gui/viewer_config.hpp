@@ -14,6 +14,7 @@ class ViewerConfig : public QWidget {
   void pitch_changed(const float& pitch);
   void sensitivity_changed(const float& sensitivity);
   void move_speed_changed(const float& move_speed);
+  void cell_size_changed(const float& cell_size);
 
  public slots:
   // set_xxx means the corresponding value is changed somewhere else and need to
@@ -22,6 +23,7 @@ class ViewerConfig : public QWidget {
   void set_pitch(const float& pitch);
   void set_sensitivity(const float& sensitivity);
   void set_move_speed(const float& move_speed);
+  void set_cell_size(const float& cell_size);
 
  private:
   QPointer<QLabel> yaw_text_label_;
@@ -35,6 +37,9 @@ class ViewerConfig : public QWidget {
 
   QPointer<QLabel> move_speed_text_label_;
   QPointer<QDoubleSpinBox> move_speed_spin_box_;
+
+  QPointer<QLabel> cell_size_text_label_;
+  QPointer<QDoubleSpinBox> cell_size_spin_box_;
 
   QPointer<QVBoxLayout> layout_;
 };

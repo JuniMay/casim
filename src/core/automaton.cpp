@@ -93,7 +93,7 @@ const xt::xarray<size_t>& Automaton::get_shape() { return shape_; }
 const std::string& Automaton::get_script() { return script_; }
 const size_t& Automaton::get_neighbor_radius() { return neighbor_radius_; }
 const std::string& Automaton::get_ca_name() { return ca_name_; }
-const std::string& Automaton::get_default_color() { return default_color_; }
+const std::string& Automaton::get_default_color() { return state_color_list_[0]; }
 const std::vector<std::string>& Automaton::get_state_color_list() {
   return state_color_list_;
 }
@@ -126,7 +126,7 @@ void Automaton::fetch_local_states(const xt::xarray<size_t>& coordinate) {
   // std::cout << local_states_ << std::endl;
 }
 
-void Automaton::evolve_by_step() {
+bool Automaton::evolve_by_step() {
   flip_ = !flip_;
 
   lua_State* L = luaL_newstate();
@@ -134,28 +134,24 @@ void Automaton::evolve_by_step() {
   luaL_dostring(L, script_.c_str());
   xt::xarray<size_t> c;
   c.resize({dim_});
-  evolve_by_step_helper(L, c, 0);
-  std::cout << "OK" << std::endl;
+  bool success = evolve_by_step_helper(L, c, 0);
+  // std::cout << "OK" << std::endl;
   lua_close(L);
+  return success;
 }
 
-void Automaton::fetch_state_color_list() {
+bool Automaton::fetch_state_color_list() {
   state_color_list_.clear();
 
   lua_State* L = luaL_newstate();
   luaL_dostring(L, script_.c_str());
 
-  lua_getglobal(L, "default_color");
-  default_color_ = lua_tostring(L, -1);
-  lua_pop(L, 1);
-
   lua_getglobal(L, "color");
   if (!lua_istable(L, -1)) {
-    // TODO
-    return;
+    return false;
   }
-  state_color_list_.push_back(default_color_);
-  for (size_t i = 1; i <= state_cnt_ - 1; ++i) {
+  
+  for (size_t i = 1; i <= state_cnt_; ++i) {
     lua_pushnumber(L, i);
     lua_gettable(L, -2);
     state_color_list_.push_back(lua_tostring(L, -1));
@@ -163,32 +159,33 @@ void Automaton::fetch_state_color_list() {
   }
   lua_pop(L, 1);
   lua_close(L);
+  return true;
 }
 
-void Automaton::fetch_ca_name() {
+bool Automaton::fetch_ca_name() {
   lua_State* L = luaL_newstate();
   luaL_dostring(L, script_.c_str());
   lua_getglobal(L, "name");
   if (!lua_isstring(L, -1)) {
-    // TODO
-    return;
+    return false;
   }
   ca_name_ = lua_tostring(L, -1);
   lua_pop(L, 1);
   lua_close(L);
+  return true;
 }
 
-void Automaton::fetch_state_cnt() {
+bool Automaton::fetch_state_cnt() {
   lua_State* L = luaL_newstate();
   luaL_dostring(L, script_.c_str());
   lua_getglobal(L, "state_count");
   if (!lua_isinteger(L, -1)) {
-    // TODO
-    return;
+    return false;
   }
   state_cnt_ = lua_tointeger(L, -1);
   lua_pop(L, 1);
   lua_close(L);
+  return true;
 }
 
 // native recursive
@@ -239,13 +236,12 @@ void Automaton::fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
 // native recursive
 // TODO: use stack
 // TODO: error handling
-void Automaton::evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c,
+bool Automaton::evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c,
                                       size_t axis) {
   if (axis == dim_) {
     lua_getglobal(L, "local_evolve");
     if (!lua_isfunction(L, -1)) {
-      // TODO
-      return;
+      return false;
     }
     fetch_local_states(c);
     lua_newtable(L);
@@ -258,12 +254,17 @@ void Automaton::evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c,
     // std::cout << c << " " << lua_tointeger(L, -1) << std::endl;
     set_cell_state(c, lua_tointeger(L, -1));
     lua_pop(L, 1);
-    return;
+    return true;
   }
+  bool success;
   for (size_t idx = 0; idx < shape_[axis]; ++idx) {
     c[axis] = idx;
-    evolve_by_step_helper(L, c, axis + 1);
+    success = evolve_by_step_helper(L, c, axis + 1);
+    if (!success) {
+      return false;
+    }
   }
+  return true;
 }
 
 void Automaton::calc_local_states_size() {
