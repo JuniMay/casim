@@ -2,6 +2,7 @@
 #define CASIM_CORE_AUTOMATON_H_
 
 #include "core/common.hpp"
+#include "core/utils.hpp"
 #include "third_party/lua/lua.hpp"
 #include "third_party/xtensor/xarray.hpp"
 
@@ -23,7 +24,7 @@ class Automaton {
   const xt::xarray<size_t>& get_shape();
   const std::string& get_script();
   const size_t& get_neighbor_radius();
-  const std::string& get_ca_name();
+  const std::string& get_name();
   const std::string& get_default_color();
   const std::vector<std::string>& get_state_color_list();
   const size_t& get_state_cnt();
@@ -35,9 +36,7 @@ class Automaton {
   void fetch_local_states(const xt::xarray<size_t>& coordinate);
   bool evolve_by_step();
 
-  bool fetch_state_color_list();
-  bool fetch_ca_name();
-  bool fetch_state_cnt();
+  bool fetch_all();
 
  private:
   // the lua script for the rule
@@ -56,7 +55,7 @@ class Automaton {
   xt::xarray<uint32_t> generation_0_;
   xt::xarray<uint32_t> generation_1_;
 
-  std::string ca_name_;  // name of cellular automaton
+  std::string name_;  // name of cellular automaton
 
   std::vector<std::string> state_color_list_;
   size_t state_cnt_;
@@ -65,6 +64,12 @@ class Automaton {
                                  xt::xarray<size_t>& c, size_t axis);
   bool evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c, size_t axis);
   void calc_local_states_size();
+
+  bool fetch_state_color_list();
+  bool fetch_name();
+  bool fetch_state_cnt();
+  bool fetch_dim();
+  bool fetch_min_size();
 };
 
 }  // namespace core

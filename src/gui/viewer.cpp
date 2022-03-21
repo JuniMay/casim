@@ -8,7 +8,7 @@ Viewer::Viewer(QWidget *parent)
       sensitivity_(0.002),
       move_speed_(0.1),
       cell_size_(10),
-      camera_pos_(-5.0f, 0.0f, 0.0f),
+      camera_pos_(0.0f, 0.0f, 0.0f),
       camera_target_(0.0f, 0.0f, 0.0f),
       camera_direction_(cos(yaw_) * cos(pitch_), sin(pitch_),
                         sin(yaw_) * cos(pitch_)),
@@ -115,7 +115,6 @@ void Viewer::mouseMoveEvent(QMouseEvent *event) {
   if (event->buttons()) {
     double dx = event->pos().x() - last_pos_.x();
     double dy = event->pos().y() - last_pos_.y();
-    //    qDebug() << dx << dy;
     yaw_ -= dx * sensitivity_;
     pitch_ += dy * sensitivity_;
 
@@ -125,21 +124,31 @@ void Viewer::mouseMoveEvent(QMouseEvent *event) {
     camera_direction_.setX(cos(yaw_) * cos(pitch_));
     camera_direction_.setY(sin(pitch_));
     camera_direction_.setZ(sin(yaw_) * cos(pitch_));
-    //    qDebug() << yaw_ << pitch_;
     last_pos_ = event->pos();
     update();
   }
 }
 void Viewer::wheelEvent(QWheelEvent *event) {
-  double n = event->angleDelta().y();
-  // camera_pos_ += camera_direction_ * n * sensitivity_;
+  float n = event->angleDelta().y();
+
+  float x = event->position().x() - width() / 2;
+  float y = height() - event->position().y() - height() / 2;
+
+  x /= cell_size_;
+  y /= cell_size_;
+
+  float sgn = n > 0 ? 80 : -80;
   cell_size_ *= 1 + n * sensitivity_;
+
   emit cell_size_changed(cell_size_);
+
+  camera_pos_ += sgn * QVector3D::crossProduct(camera_direction_, camera_up_) *
+                 x * sensitivity_;
+  camera_pos_.setY(camera_pos_.y() + sgn * y * sensitivity_);
   update();
 }
 
 void Viewer::keyPressEvent(QKeyEvent *event) {
-  //  qDebug() << event->key();
   if (event->key() == Qt::Key_K) {
     camera_pos_.setY(camera_pos_.y() + move_speed_);
   } else if (event->key() == Qt::Key_J) {
@@ -188,7 +197,7 @@ void Viewer::keyPressEvent(QKeyEvent *event) {
 void Viewer::reset_camera() {
   yaw_ = 0.0;
   pitch_ = 0.0;
-  camera_pos_ = {-5.0f, 0.0f, 0.0f};
+  camera_pos_ = {0.0f, 0.0f, 0.0f};
   camera_target_ = {0.0f, 0.0f, 0.0f};
   camera_direction_ = {(float)cos(yaw_) * (float)cos(pitch_),
                        (float)sin(pitch_),
@@ -221,16 +230,16 @@ void Viewer::display_automaton() {
 
   auto shape3d = generation.shape();
 
+  // camera_pos_.setX((float)shape3d[2] / 2);
+  // camera_pos_.setY((float)shape3d[1] / 2);
+
   for (size_t i = 0; i < shape3d[0]; ++i) {
     for (size_t j = 0; j < shape3d[1]; ++j) {
       for (size_t k = 0; k < shape3d[2]; ++k) {
         uint32_t state = generation[{i, j, k}];
         if (state == 0) continue;
-        qDebug() << state;
         cell_positions_.push_back({(float)i, (float)j, (float)k});
-        qDebug() << state_color_list[state].c_str();
         color_vector.setNamedColor(state_color_list[state].c_str());
-        qDebug() << color_vector;
         cell_color_vectors_.push_back(QVector3D(
             color_vector.redF(), color_vector.greenF(), color_vector.blueF()));
       }

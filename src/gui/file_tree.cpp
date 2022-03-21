@@ -13,7 +13,9 @@ FileTree::FileTree(QWidget *parent) : QTreeView{parent} {
   this->setIndentation(20);
   this->setSortingEnabled(true);
 
-  connect(this, &FileTree::doubleClicked, this, open_file);
+  this->sortByColumn(0, Qt::AscendingOrder);
+
+  connect(this, &FileTree::doubleClicked, this, &FileTree::open_file);
 }
 
 void FileTree::open_file(const QModelIndex &index) {

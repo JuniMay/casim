@@ -32,14 +32,12 @@ ScriptHighlighter::ScriptHighlighter(QTextDocument *parent)
   highting_rules_.append(rule);
 
   string_format_.setForeground(Qt::darkYellow);
-  rule.regex_rule =
-      QRegularExpression(QStringLiteral("\".*\""));
+  rule.regex_rule = QRegularExpression(QStringLiteral("\".*\""));
   rule.format = string_format_;
   highting_rules_.append(rule);
 
   number_format_.setForeground(Qt::darkMagenta);
-  rule.regex_rule =
-      QRegularExpression(QStringLiteral("[0-9]+"));
+  rule.regex_rule = QRegularExpression(QStringLiteral("[0-9]+"));
   rule.format = number_format_;
   highting_rules_.append(rule);
 }
@@ -55,7 +53,7 @@ void ScriptHighlighter::highlightBlock(const QString &text) {
   }
 }
 
-ScriptEditor::ScriptEditor(QWidget *parent): QWidget(parent) {
+ScriptEditor::ScriptEditor(QWidget *parent) : QWidget(parent) {
   QFont font;
   font.setFamily("Consolas");
   font.setFixedPitch(true);
@@ -77,9 +75,8 @@ ScriptEditor::ScriptEditor(QWidget *parent): QWidget(parent) {
   this->setLayout(layout_);
 
   layout_->addWidget(editor_);
-
 }
 
-void ScriptEditor::load_script(const QString& script) {
+void ScriptEditor::load_script(const QString &script) {
   editor_->setText(script);
 }

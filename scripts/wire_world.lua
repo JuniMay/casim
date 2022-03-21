@@ -1,6 +1,8 @@
 name        = "Wire World"
-color       = {"#ffffff", "#9400d3", "#ff3030", "#ffd700"}
-state_count = 4;
+color       = { "#ffffff", "#9400d3", "#ff3030", "#ffd700" }
+state_count = 4
+dimensions  = 2
+min_size    = { 30, 30 }
 
 function local_evolve(x)
     if x[5] == 0 then

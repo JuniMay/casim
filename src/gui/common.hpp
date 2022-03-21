@@ -24,7 +24,6 @@
 #include <QtOpenGL/QOpenGLVertexArrayObject>
 #include <QtOpenGLWidgets/QOpenGLWidget>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QStyleFactory>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QColorDialog>
 #include <QtWidgets/QDockWidget>
@@ -42,8 +41,7 @@
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStackedLayout>
-//#include <QtWidgets/QStackedWidget>
-//#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QStyleFactory>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeView>

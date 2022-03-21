@@ -2,12 +2,9 @@
 #include "gui/main_window.hpp"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
-  // widget_ = new QWidget(this);
-  // this->setCentralWidget(widget_);
   this->resize(1080, 720);
   QPointer<QDockWidget> dock;
   viewer_ = new Viewer(this);
-  // viewer_->setFixedSize(400, 300);
   this->setCentralWidget(viewer_);
 
   dock = new QDockWidget(this);
@@ -74,31 +71,44 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
   connect(file_tree_, &FileTree::load_script_signal, this,
           &MainWindow::load_script);
-
-  automaton_->set_cell_state({15, 10}, 3);
-
-  automaton_->set_cell_state({14, 11}, 3);
-  automaton_->set_cell_state({14, 12}, 1);
-  automaton_->set_cell_state({14, 13}, 2);
-  automaton_->set_cell_state({14, 14}, 3);
-  automaton_->set_cell_state({14, 15}, 3);
-
-  automaton_->set_cell_state({15, 16}, 3);
-
-  automaton_->set_cell_state({16, 11}, 3);
-  automaton_->set_cell_state({16, 12}, 3);
-  automaton_->set_cell_state({16, 13}, 2);
-  automaton_->set_cell_state({16, 14}, 1);
-  automaton_->set_cell_state({16, 15}, 3);
 }
 
 void MainWindow::evolve() {
   automaton_->evolve_by_step();
-  qDebug() << "evolve ok";
   viewer_->display_automaton();
 }
 
 void MainWindow::load_script(const QString& script) {
-  qDebug() << "load!";
   automaton_->set_script(script.toLocal8Bit().data());
+
+  //  automaton_->set_cell_state({15, 10}, 3);
+
+  //  automaton_->set_cell_state({14, 11}, 3);
+  //  automaton_->set_cell_state({14, 12}, 1);
+  //  automaton_->set_cell_state({14, 13}, 2);
+  //  automaton_->set_cell_state({14, 14}, 3);
+  //  automaton_->set_cell_state({14, 15}, 3);
+
+  //  automaton_->set_cell_state({15, 16}, 3);
+
+  //  automaton_->set_cell_state({16, 11}, 3);
+  //  automaton_->set_cell_state({16, 12}, 3);
+  //  automaton_->set_cell_state({16, 13}, 2);
+  //  automaton_->set_cell_state({16, 14}, 1);
+  //  automaton_->set_cell_state({16, 15}, 3);
+  automaton_->set_cell_state({15, 10}, 1);
+
+  automaton_->set_cell_state({14, 11}, 1);
+  automaton_->set_cell_state({14, 12}, 1);
+  automaton_->set_cell_state({14, 13}, 1);
+  automaton_->set_cell_state({14, 14}, 1);
+  automaton_->set_cell_state({14, 15}, 1);
+
+  automaton_->set_cell_state({15, 16}, 1);
+
+  automaton_->set_cell_state({16, 11}, 1);
+  automaton_->set_cell_state({16, 12}, 1);
+  automaton_->set_cell_state({16, 13}, 1);
+  automaton_->set_cell_state({16, 14}, 1);
+  automaton_->set_cell_state({16, 15}, 1);
 }
