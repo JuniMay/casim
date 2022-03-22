@@ -8,8 +8,6 @@ INCLUDEPATH += \
 
 #CONFIG += console
 
-win32: LIBS += -lOpengl32 -lglu32 -lfreeglut
-
 HEADERS += \
     src/core/automaton.hpp\
     src/core/common.hpp \

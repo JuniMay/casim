@@ -261,8 +261,11 @@ bool Automaton::fetch_all() {
 
 bool Automaton::load_pattern_from_file(const std::string& path) {
   xt::xarray<uint32_t> data = xt::load_npy<uint32_t>(path);
-  xt::xarray<size_t> shape(data.shape());
-
+  xt::xarray<size_t> shape;
+  shape.resize({data.shape().size()});
+  for (size_t i = 0; i < data.shape().size(); ++i) {
+    shape[i] = data.shape()[i];
+  }
   set_shape(shape);
 
   generation_0_ = data;

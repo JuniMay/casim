@@ -21,14 +21,22 @@ FileTree::FileTree(QWidget *parent) : QTreeView{parent} {
 void FileTree::open_file(const QModelIndex &index) {
   QFile file(model_->filePath(index));
   QFileInfo info(model_->filePath(index));
-  if (info.suffix() != "lua") {
-    // TODO
-    return;
+  if (info.suffix() == "lua") {
+    if (file.open(QFile::ReadOnly | QFile::Text)) {
+      QTextStream in(&file);
+      QString script = in.readAll();
+      file.close();
+      emit load_script_signal(script);
+    }
+  } else if (info.suffix() == "npy") {
+    emit load_pattern_signal(model_->filePath(index));
   }
-  if (file.open(QFile::ReadOnly | QFile::Text)) {
-    QTextStream in(&file);
-    QString script = in.readAll();
-    file.close();
-    emit load_script_signal(script);
-  }
+}
+
+void FileTree::open_folder() {
+  QFileDialog dialog(this);
+  QString path = dialog.getExistingDirectory(this, tr("Open Folder"), "");
+  model_->setRootPath(path);
+  model_->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::AllEntries);
+  this->setRootIndex(model_->index(path));
 }

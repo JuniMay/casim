@@ -99,8 +99,8 @@ void Viewer::paintGL() {
   // projection.perspective(45.0, width() / (double)height(), 0.1, 100.0);
   projection.ortho(-(float)width() / 2 / cell_size_,
                    (float)width() / 2 / cell_size_,
-                   -(float)height() / 2 / cell_size_,
-                   (float)height() / 2 / cell_size_, -100, 100.0f);
+                   (float)height() / 2 / cell_size_,
+                   -(float)height() / 2 / cell_size_, -100, 100.0f);
   shader_program_.setUniformValue("projection", projection);
   QOpenGLVertexArrayObject::Binder{&vao_};
   for (qsizetype i = 0; i < cell_positions_.size(); ++i) {
@@ -118,7 +118,7 @@ void Viewer::mouseMoveEvent(QMouseEvent *event) {
   if (event->buttons()) {
     double dx = event->pos().x() - last_pos_.x();
     double dy = event->pos().y() - last_pos_.y();
-    yaw_ -= dx * sensitivity_;
+    yaw_ += dx * sensitivity_;
     pitch_ += dy * sensitivity_;
 
     emit yaw_changed(yaw_);
@@ -147,15 +147,15 @@ void Viewer::wheelEvent(QWheelEvent *event) {
 
   camera_pos_ += sgn * QVector3D::crossProduct(camera_direction_, camera_up_) *
                  x * sensitivity_;
-  camera_pos_.setY(camera_pos_.y() + sgn * y * sensitivity_);
+  camera_pos_.setY(camera_pos_.y() - sgn * y * sensitivity_);
   update();
 }
 
 void Viewer::keyPressEvent(QKeyEvent *event) {
   if (event->key() == Qt::Key_K) {
-    camera_pos_.setY(camera_pos_.y() + move_speed_);
-  } else if (event->key() == Qt::Key_J) {
     camera_pos_.setY(camera_pos_.y() - move_speed_);
+  } else if (event->key() == Qt::Key_J) {
+    camera_pos_.setY(camera_pos_.y() + move_speed_);
   } else if (event->key() == Qt::Key_W) {
     emit cell_size_changed(cell_size_);
     cell_size_ *= 1 + move_speed_;
@@ -181,14 +181,14 @@ void Viewer::keyPressEvent(QKeyEvent *event) {
     camera_direction_.setY(sin(pitch_));
     camera_direction_.setZ(sin(yaw_) * cos(pitch_));
   } else if (event->key() == Qt::Key_Up) {
-    pitch_ += 5 * sensitivity_;
+    pitch_ -= 5 * sensitivity_;
     emit pitch_changed(pitch_);
     camera_direction_.setX(cos(yaw_) * cos(pitch_));
     camera_direction_.setY(sin(pitch_));
     camera_direction_.setZ(sin(yaw_) * cos(pitch_));
 
   } else if (event->key() == Qt::Key_Down) {
-    pitch_ -= 5 * sensitivity_;
+    pitch_ += 5 * sensitivity_;
     emit pitch_changed(pitch_);
     camera_direction_.setX(cos(yaw_) * cos(pitch_));
     camera_direction_.setY(sin(pitch_));
@@ -216,6 +216,17 @@ void Viewer::reset_camera() {
 }
 
 void Viewer::reset_view() {
+  
+  if (view_mode_ == ViewMode::Accumulate) {
+    size_t dim = automaton_->get_dim();
+    if (dim == 3) {
+      view_mode_ = ViewMode::Refresh;
+      return;
+    }
+    acc_axis_ = dim;
+    acc_cnt_ = 0;
+  }
+
   acc_cnt_ = 0;
   cell_positions_.clear();
   cell_color_vectors_.clear();

@@ -40,10 +40,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   connect(tool_bar_, &ToolBar::reset_signal, viewer_, &Viewer::reset_camera);
 
   automaton_ = QSharedPointer<casim::core::Automaton>(
-      new casim::core::Automaton({100, 100}, "", 1));  // TODO
+      new casim::core::Automaton({200, 200}, "", 1));  // TODO
   viewer_->set_automaton(automaton_);
 
-  connect(tool_bar_, &ToolBar::evolve_signal, this, &MainWindow::evolve);
+  connect(tool_bar_, &ToolBar::evolve_step_signal, this,
+          &MainWindow::evolve_step);
+  connect(tool_bar_, &ToolBar::open_folder, file_tree_, &FileTree::open_folder);
 
   connect(viewer_, &Viewer::yaw_changed, config_editor_,
           &ConfigEditor::viewer_yaw_changed_from_viewer);
@@ -75,6 +77,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   connect(file_tree_, &FileTree::load_script_signal, this,
           &MainWindow::load_script);
 
+  connect(file_tree_, &FileTree::load_pattern_signal, this,
+          &MainWindow::file_tree_load_pattern);
+
   connect(config_editor_, &ConfigEditor::pattern_add, this,
           &MainWindow::add_cell);
   connect(config_editor_, &ConfigEditor::pattern_load, this,
@@ -86,6 +91,11 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 }
 
 void MainWindow::evolve() {
+  // TODO
+  automaton_->evolve_by_step();
+  viewer_->display_automaton();
+}
+void MainWindow::evolve_step() {
   automaton_->evolve_by_step();
   viewer_->display_automaton();
 }
@@ -139,8 +149,30 @@ void MainWindow::add_cell(const size_t& x, const size_t& y, const size_t& z,
   }
   viewer_->display_automaton();
 }
-void MainWindow::load_pattern() {}
-void MainWindow::save_pattern() {}
+void MainWindow::load_pattern() {
+  QFileDialog dialog(this);
+  QString path = dialog.getOpenFileName(this, tr("Open Pattern"), ".", "*.npy");
+  //  qDebug() << path;
+  if (path == "") return;
+  automaton_->load_pattern_from_file(path.toLocal8Bit().data());
+  viewer_->reset_view();
+  viewer_->display_automaton();
+}
+void MainWindow::file_tree_load_pattern(const QString& path) {
+  automaton_->load_pattern_from_file(path.toLocal8Bit().data());
+  viewer_->reset_view();
+  viewer_->display_automaton();
+}
+void MainWindow::save_pattern() {
+  QFileDialog dialog(this);
+  dialog.setDefaultSuffix(".npy");
+  QString path = dialog.getSaveFileName(this, tr("Save Pattern"), ".", "*.npy");
+  //  qDebug() << path;
+  if (path == "") return;
+  automaton_->save_pattern_to_file(path.toLocal8Bit().data());
+  viewer_->reset_view();
+  viewer_->display_automaton();
+}
 void MainWindow::reset_pattern() {
   automaton_->reset();
   viewer_->reset_view();
