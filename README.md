@@ -10,5 +10,6 @@ Casim depends on `xtensor` `xlt` and `lua`. The licenses of these libraries are 
 
 ## RoadMap
 
+- [ ] Performance optimization
 - [ ] Auto adjusting for viewer
 - [ ] Error handling for Automaton

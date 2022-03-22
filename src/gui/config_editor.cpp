@@ -42,6 +42,8 @@ ConfigEditor::ConfigEditor(QWidget* parent) : QTabWidget(parent) {
           &ConfigEditor::viewer_move_speed_changed_from_config);
   connect(viewer_config_, &ViewerConfig::cell_size_changed, this,
           &ConfigEditor::viewer_cell_size_changed_from_config);
+  connect(viewer_config_, &ViewerConfig::view_mode_changed, this,
+          &ConfigEditor::viewer_view_mode_changed_from_config);
 
   connect(pattern_config_, &PatternConfig::add_signal, this,
           &ConfigEditor::pattern_add);
@@ -49,5 +51,6 @@ ConfigEditor::ConfigEditor(QWidget* parent) : QTabWidget(parent) {
           &ConfigEditor::pattern_load);
   connect(pattern_config_, &PatternConfig::save_signal, this,
           &ConfigEditor::pattern_save);
-  connect(pattern_config_, &PatternConfig::reset_signal, this, &ConfigEditor::pattern_reset);
+  connect(pattern_config_, &PatternConfig::reset_signal, this,
+          &ConfigEditor::pattern_reset);
 }

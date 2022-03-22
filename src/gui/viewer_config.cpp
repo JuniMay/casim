@@ -49,6 +49,13 @@ ViewerConfig::ViewerConfig(QWidget *parent) : QWidget(parent) {
   layout_->addWidget(cell_size_text_label_);
   layout_->addWidget(cell_size_spin_box_);
 
+  view_mode_text_label_ = new QLabel(tr("View Mode"), this);
+  view_mode_combo_box_ = new QComboBox(this);
+  view_mode_combo_box_->addItem(tr("Refresh"), (int)ViewMode::Refresh);
+  view_mode_combo_box_->addItem(tr("Accumulate"), (int)ViewMode::Accumulate);
+  layout_->addWidget(view_mode_text_label_);
+  layout_->addWidget(view_mode_combo_box_);
+
   layout_->addStretch();
 
   connect(yaw_spin_box_, &QDoubleSpinBox::valueChanged, this,
@@ -61,6 +68,8 @@ ViewerConfig::ViewerConfig(QWidget *parent) : QWidget(parent) {
           &ViewerConfig::move_speed_changed);
   connect(cell_size_spin_box_, &QDoubleSpinBox::valueChanged, this,
           &ViewerConfig::cell_size_changed);
+  connect(view_mode_combo_box_, &QComboBox::currentIndexChanged, this,
+          &ViewerConfig::view_mode_handler);
 }
 
 void ViewerConfig::set_yaw(const float &yaw) { yaw_spin_box_->setValue(yaw); }
@@ -75,4 +84,9 @@ void ViewerConfig::set_move_speed(const float &move_speed) {
 }
 void ViewerConfig::set_cell_size(const float &cell_size) {
   cell_size_spin_box_->setValue(cell_size);
+}
+
+void ViewerConfig::view_mode_handler(int index) {
+  int data = view_mode_combo_box_->itemData(index).toInt();
+  emit view_mode_changed((ViewMode)data);
 }

@@ -30,6 +30,7 @@ class ConfigEditor : public QTabWidget {
   void viewer_sensitivity_changed_from_config(const float& sensitivity);
   void viewer_move_speed_changed_from_config(const float& move_speed);
   void viewer_cell_size_changed_from_config(const float& cell_size);
+  void viewer_view_mode_changed_from_config(const ViewMode& view_mode);
 
  private:
   QPointer<QWidget> dummy1_, dummy2_;  //

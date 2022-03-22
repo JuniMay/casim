@@ -3,6 +3,11 @@
 
 #include "gui/common.hpp"
 
+enum class ViewMode {
+  Refresh = 0,
+  Accumulate = 1,
+};
+
 class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   Q_OBJECT
  public:
@@ -30,6 +35,7 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
 
  public slots:
   void reset_camera();
+  void reset_view();
   void display_automaton();
 
   // slots for xxx_set from config_editor
@@ -38,6 +44,8 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   void set_sensitivity(const float &sensitivity);
   void set_move_speed(const float &move_speed);
   void set_cell_size(const float &cell_size);
+
+  void set_view_mode(const ViewMode &view_mode);
 
  private:
   QOpenGLVertexArrayObject vao_;
@@ -54,6 +62,10 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   float move_speed_;
   float cell_size_;
 
+  ViewMode view_mode_;
+  size_t acc_axis_;
+  size_t acc_cnt_;
+
   QVector3D camera_pos_;
   QVector3D camera_target_;
   QVector3D camera_direction_;
@@ -64,8 +76,7 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
 
   QSharedPointer<casim::core::Automaton> automaton_;
 
-
-  QColor background_color_ { QColor::fromRgb(0xff, 0xff, 0xff ) };
+  QColor background_color_{QColor::fromRgb(0xff, 0xff, 0xff)};
 };
 
 #endif

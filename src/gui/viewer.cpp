@@ -8,6 +8,9 @@ Viewer::Viewer(QWidget *parent)
       sensitivity_(0.002),
       move_speed_(0.1),
       cell_size_(10),
+      view_mode_(ViewMode::Refresh),
+      acc_axis_(0),
+      acc_cnt_(0),
       camera_pos_(0.0f, 0.0f, 0.0f),
       camera_target_(0.0f, 0.0f, 0.0f),
       camera_direction_(cos(yaw_) * cos(pitch_), sin(pitch_),
@@ -212,9 +215,19 @@ void Viewer::reset_camera() {
   update();
 }
 
-void Viewer::display_automaton() {
+void Viewer::reset_view() {
+  acc_cnt_ = 0;
   cell_positions_.clear();
   cell_color_vectors_.clear();
+}
+
+void Viewer::display_automaton() {
+  if (view_mode_ == ViewMode::Refresh) {
+    cell_positions_.clear();
+    cell_color_vectors_.clear();
+  } else {
+    acc_cnt_++;
+  }
 
   QColor color_vector;
 
@@ -222,9 +235,9 @@ void Viewer::display_automaton() {
   auto shape = automaton_->get_shape();
   auto state_color_list = automaton_->get_state_color_list();
 
-  if (shape.size() == 1) {
+  if (automaton_->get_dim() == 1) {
     generation.reshape({1, 1, shape[0]});
-  } else if (shape.size() == 2) {
+  } else if (automaton_->get_dim() == 2) {
     generation.reshape({1, shape[0], shape[1]});
   }
 
@@ -238,7 +251,17 @@ void Viewer::display_automaton() {
       for (size_t k = 0; k < shape3d[2]; ++k) {
         uint32_t state = generation[{i, j, k}];
         if (state == 0) continue;
-        cell_positions_.push_back({(float)i, (float)j, (float)k});
+        if (view_mode_ == ViewMode::Refresh) {
+          cell_positions_.push_back({(float)i, (float)j, (float)k});
+        } else {
+          if (acc_axis_ == 1) {
+            cell_positions_.push_back(
+                {(float)i, (float)j + acc_cnt_, (float)k});
+          } else if (acc_axis_ == 2) {
+            cell_positions_.push_back(
+                {(float)i + acc_cnt_, (float)j, (float)k});
+          }
+        }
         color_vector.setNamedColor(state_color_list[state].c_str());
         cell_color_vectors_.push_back(QVector3D(
             color_vector.redF(), color_vector.greenF(), color_vector.blueF()));
@@ -255,6 +278,7 @@ void Viewer::set_yaw(const float &yaw) {
   camera_direction_.setZ(sin(yaw_) * cos(pitch_));
   update();
 }
+
 void Viewer::set_pitch(const float &pitch) {
   pitch_ = pitch;
   camera_direction_.setX(cos(yaw_) * cos(pitch_));
@@ -262,13 +286,29 @@ void Viewer::set_pitch(const float &pitch) {
   camera_direction_.setZ(sin(yaw_) * cos(pitch_));
   update();
 }
+
 void Viewer::set_sensitivity(const float &sensitivity) {
   sensitivity_ = sensitivity;
 }
+
 void Viewer::set_move_speed(const float &move_speed) {
   move_speed_ = move_speed;
 }
+
 void Viewer::set_cell_size(const float &cell_size) {
   cell_size_ = cell_size;
   update();
+}
+
+void Viewer::set_view_mode(const ViewMode &view_mode) {
+  view_mode_ = view_mode;
+  if (view_mode_ == ViewMode::Accumulate) {
+    size_t dim = automaton_->get_dim();
+    if (dim == 3) {
+      view_mode_ = ViewMode::Refresh;
+      return;
+    }
+    acc_axis_ = dim;
+    acc_cnt_ = 0;
+  }
 }

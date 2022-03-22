@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   connect(tool_bar_, &ToolBar::reset_signal, viewer_, &Viewer::reset_camera);
 
   automaton_ = QSharedPointer<casim::core::Automaton>(
-      new casim::core::Automaton({100, 100}, "", 1));
+      new casim::core::Automaton({100, 100}, "", 1));  // TODO
   viewer_->set_automaton(automaton_);
 
   connect(tool_bar_, &ToolBar::evolve_signal, this, &MainWindow::evolve);
@@ -66,6 +66,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
           viewer_, &Viewer::set_move_speed);
   connect(config_editor_, &ConfigEditor::viewer_cell_size_changed_from_config,
           viewer_, &Viewer::set_cell_size);
+  connect(config_editor_, &ConfigEditor::viewer_view_mode_changed_from_config,
+          viewer_, &Viewer::set_view_mode);
 
   connect(file_tree_, &FileTree::load_script_signal, script_editor_,
           &ScriptEditor::load_script);
@@ -89,6 +91,7 @@ void MainWindow::evolve() {
 }
 
 void MainWindow::load_script(const QString& script) {
+  viewer_->reset_view();
   automaton_->set_script(script.toLocal8Bit().data());
 
   //  automaton_->set_cell_state({15, 10}, 3);
@@ -140,5 +143,6 @@ void MainWindow::load_pattern() {}
 void MainWindow::save_pattern() {}
 void MainWindow::reset_pattern() {
   automaton_->reset();
+  viewer_->reset_view();
   viewer_->display_automaton();
 }

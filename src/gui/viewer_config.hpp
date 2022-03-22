@@ -2,6 +2,7 @@
 #define CASIM_GUI_VIEWER_CONFIG_HPP_
 
 #include "gui/common.hpp"
+#include "gui/viewer.hpp"
 
 class ViewerConfig : public QWidget {
   Q_OBJECT
@@ -16,6 +17,8 @@ class ViewerConfig : public QWidget {
   void move_speed_changed(const float& move_speed);
   void cell_size_changed(const float& cell_size);
 
+  void view_mode_changed(const ViewMode& view_mode);
+
  public slots:
   // set_xxx means the corresponding value is changed somewhere else and need to
   // be update here.
@@ -24,6 +27,8 @@ class ViewerConfig : public QWidget {
   void set_sensitivity(const float& sensitivity);
   void set_move_speed(const float& move_speed);
   void set_cell_size(const float& cell_size);
+
+  void view_mode_handler(int index);
 
  private:
   QPointer<QLabel> yaw_text_label_;
@@ -40,6 +45,9 @@ class ViewerConfig : public QWidget {
 
   QPointer<QLabel> cell_size_text_label_;
   QPointer<QDoubleSpinBox> cell_size_spin_box_;
+
+  QPointer<QLabel> view_mode_text_label_;
+  QPointer<QComboBox> view_mode_combo_box_;
 
   QPointer<QVBoxLayout> layout_;
 };
