@@ -94,6 +94,7 @@ const std::vector<std::string>& Automaton::get_state_color_list() {
   return state_color_list_;
 }
 const size_t& Automaton::get_state_cnt() { return state_cnt_; }
+const size_t& Automaton::get_dim() { return dim_; }
 
 void Automaton::reset() {
   flip_ = 0;
@@ -255,6 +256,23 @@ bool Automaton::fetch_all() {
     return false;
   }
   reset();
+  return true;
+}
+
+bool Automaton::load_pattern_from_file(const std::string& path) {
+  xt::xarray<uint32_t> data = xt::load_npy<uint32_t>(path);
+  xt::xarray<size_t> shape(data.shape());
+
+  set_shape(shape);
+
+  generation_0_ = data;
+  generation_1_ = data;
+
+  return true;
+}
+
+bool Automaton::save_pattern_to_file(const std::string& path) {
+  xt::dump_npy(path, get_curr_generation());
   return true;
 }
 

@@ -3,8 +3,6 @@
 
 #include "core/common.hpp"
 #include "core/utils.hpp"
-#include "third_party/lua/lua.hpp"
-#include "third_party/xtensor/xarray.hpp"
 
 namespace casim {
 namespace core {
@@ -28,6 +26,7 @@ class Automaton {
   const std::string& get_default_color();
   const std::vector<std::string>& get_state_color_list();
   const size_t& get_state_cnt();
+  const size_t& get_dim();
 
   void reset();
 
@@ -37,6 +36,11 @@ class Automaton {
   bool evolve_by_step();
 
   bool fetch_all();
+
+
+  bool load_pattern_from_file(const std::string& path);
+
+  bool save_pattern_to_file(const std::string& path);
 
  private:
   // the lua script for the rule

@@ -40,8 +40,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   connect(tool_bar_, &ToolBar::reset_signal, viewer_, &Viewer::reset_camera);
 
   automaton_ = QSharedPointer<casim::core::Automaton>(
-      new casim::core::Automaton({30, 30}, "", 1));
+      new casim::core::Automaton({100, 100}, "", 1));
   viewer_->set_automaton(automaton_);
+
   connect(tool_bar_, &ToolBar::evolve_signal, this, &MainWindow::evolve);
 
   connect(viewer_, &Viewer::yaw_changed, config_editor_,
@@ -71,6 +72,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
   connect(file_tree_, &FileTree::load_script_signal, this,
           &MainWindow::load_script);
+
+  connect(config_editor_, &ConfigEditor::pattern_add, this,
+          &MainWindow::add_cell);
+  connect(config_editor_, &ConfigEditor::pattern_load, this,
+          &MainWindow::load_pattern);
+  connect(config_editor_, &ConfigEditor::pattern_save, this,
+          &MainWindow::save_pattern);
+  connect(config_editor_, &ConfigEditor::pattern_reset, this,
+          &MainWindow::reset_pattern);
 }
 
 void MainWindow::evolve() {
@@ -111,4 +121,24 @@ void MainWindow::load_script(const QString& script) {
   automaton_->set_cell_state({16, 13}, 1);
   automaton_->set_cell_state({16, 14}, 1);
   automaton_->set_cell_state({16, 15}, 1);
+  viewer_->display_automaton();
+}
+
+void MainWindow::add_cell(const size_t& x, const size_t& y, const size_t& z,
+                          const uint32_t& state) {
+  size_t dim = automaton_->get_dim();
+  if (dim == 1) {
+    automaton_->set_cell_state({x}, state);
+  } else if (dim == 2) {
+    automaton_->set_cell_state({y, x}, state);
+  } else if (dim == 3) {
+    automaton_->set_cell_state({z, y, z}, state);
+  }
+  viewer_->display_automaton();
+}
+void MainWindow::load_pattern() {}
+void MainWindow::save_pattern() {}
+void MainWindow::reset_pattern() {
+  automaton_->reset();
+  viewer_->display_automaton();
 }

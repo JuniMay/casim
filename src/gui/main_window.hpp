@@ -12,11 +12,17 @@
 class MainWindow : public QMainWindow {
   Q_OBJECT
  public:
-  MainWindow(QWidget *parent = nullptr);
+  MainWindow(QWidget* parent = nullptr);
 
  public slots:
   void load_script(const QString& script);
   void evolve();
+
+  void add_cell(const size_t& x, const size_t& y, const size_t& z,
+                const uint32_t& state);
+  void load_pattern();
+  void save_pattern();
+  void reset_pattern();
 
  private:
   QPointer<QWidget> widget_;

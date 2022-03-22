@@ -5,10 +5,20 @@
 
 // TODO: signals and slots
 
-class PatternConfig: public QWidget {
+class PatternConfig : public QWidget {
   Q_OBJECT
  public:
-  PatternConfig(QWidget *parent = nullptr);
+  PatternConfig(QWidget* parent = nullptr);
+
+ signals:
+  void add_signal(const size_t& x, const size_t& y, const size_t& z,
+                  const uint32_t& state);
+  void load_signal();
+  void save_signal();
+  void reset_signal();
+
+ public slots:
+  void add_button_clicked_handler();
 
  private:
   QPointer<QLabel> x_label_;
@@ -24,6 +34,9 @@ class PatternConfig: public QWidget {
   QPointer<QLineEdit> state_line_edit_;
 
   QPointer<QPushButton> add_button_;
+  QPointer<QPushButton> load_button_;
+  QPointer<QPushButton> save_button_;
+  QPointer<QPushButton> reset_button_;
   QPointer<QGridLayout> layout_;
 };
 

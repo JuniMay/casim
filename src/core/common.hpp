@@ -6,6 +6,9 @@
 #include <vector>
 
 #include <iostream>
+#include "third_party/lua/lua.hpp"
+#include "third_party/xtensor/xarray.hpp"
 #include "third_party/xtensor/xio.hpp"
+#include "third_party/xtensor/xnpy.hpp"
 
 #endif

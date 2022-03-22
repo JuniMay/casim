@@ -5,13 +5,13 @@ ConfigEditor::ConfigEditor(QWidget* parent) : QTabWidget(parent) {
   viewer_config_ = new ViewerConfig(viewer_config_scroll_area_);
   viewer_config_scroll_area_->setWidget(viewer_config_);
   viewer_config_scroll_area_->setWidgetResizable(true);
-  this->addTab(viewer_config_scroll_area_, "Viewer");
+  this->addTab(viewer_config_scroll_area_, tr("Viewer"));
 
   pattern_config_scroll_area_ = new QScrollArea(this);
   pattern_config_ = new PatternConfig(pattern_config_scroll_area_);
   pattern_config_scroll_area_->setWidget(pattern_config_);
   pattern_config_scroll_area_->setWidgetResizable(true);
-  this->addTab(pattern_config_scroll_area_, "pattern");
+  this->addTab(pattern_config_scroll_area_, tr("Pattern"));
 
   dummy1_ = new QWidget(this);
   dummy2_ = new QWidget(this);
@@ -42,4 +42,12 @@ ConfigEditor::ConfigEditor(QWidget* parent) : QTabWidget(parent) {
           &ConfigEditor::viewer_move_speed_changed_from_config);
   connect(viewer_config_, &ViewerConfig::cell_size_changed, this,
           &ConfigEditor::viewer_cell_size_changed_from_config);
+
+  connect(pattern_config_, &PatternConfig::add_signal, this,
+          &ConfigEditor::pattern_add);
+  connect(pattern_config_, &PatternConfig::load_signal, this,
+          &ConfigEditor::pattern_load);
+  connect(pattern_config_, &PatternConfig::save_signal, this,
+          &ConfigEditor::pattern_save);
+  connect(pattern_config_, &PatternConfig::reset_signal, this, &ConfigEditor::pattern_reset);
 }
