@@ -7,6 +7,8 @@ INCLUDEPATH += \
         ./third_party
 #CONFIG += console
 
+win32: LIBS += -lfreeglut
+
 HEADERS += \
     src/core/automaton.hpp\
     src/core/common.hpp \

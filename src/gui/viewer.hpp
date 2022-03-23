@@ -49,10 +49,12 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
 
  private:
   QOpenGLVertexArrayObject vao_;
+  QOpenGLVertexArrayObject light_vao_;
   QOpenGLBuffer vbo_;
   QOpenGLShaderProgram shader_program_;
+  QOpenGLShaderProgram light_shader_program_;
 
-  QVector<double> vertices_;
+  QVector<float> vertices_;
   QVector<QVector3D> cell_positions_;
   QVector<QVector3D> cell_color_vectors_;
 
@@ -76,7 +78,7 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
 
   QSharedPointer<casim::core::Automaton> automaton_;
 
-  QColor background_color_{QColor::fromRgb(0xff, 0xff, 0xff)};
+  QColor background_color_{QColor::fromRgb(0x1f, 0x1f, 0x1f)};
 };
 
 #endif

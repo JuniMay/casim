@@ -29,8 +29,7 @@ Automaton::Automaton(const xt::xarray<size_t>& shape,
   fetch_all();
 }
 
-Automaton::Automaton(const xt::xarray<size_t>& shape,
-                     const std::string& script,
+Automaton::Automaton(const xt::xarray<size_t>& shape, const std::string& script,
                      const size_t& neighbor_radius) {
   shape_ = shape;
   script_ = script;
@@ -84,30 +83,26 @@ const xt::xarray<uint32_t>& Automaton::get_curr_generation() {
     return generation_0_;
   }
 }
-const xt::xarray<size_t>& Automaton::get_shape() {
-  return shape_;
-}
-const std::string& Automaton::get_script() {
-  return script_;
-}
-const size_t& Automaton::get_neighbor_radius() {
-  return neighbor_radius_;
-}
-const std::string& Automaton::get_name() {
-  return name_;
-}
+
+const xt::xarray<size_t>& Automaton::get_shape() { return shape_; }
+
+const std::string& Automaton::get_script() { return script_; }
+
+const size_t& Automaton::get_neighbor_radius() { return neighbor_radius_; }
+
+const std::string& Automaton::get_name() { return name_; }
+
 const std::string& Automaton::get_default_color() {
   return state_color_list_[0];
 }
+
 const std::vector<std::string>& Automaton::get_state_color_list() {
   return state_color_list_;
 }
-const size_t& Automaton::get_state_cnt() {
-  return state_cnt_;
-}
-const size_t& Automaton::get_dim() {
-  return dim_;
-}
+
+const size_t& Automaton::get_state_cnt() { return state_cnt_; }
+
+const size_t& Automaton::get_dim() { return dim_; }
 
 void Automaton::reset() {
   flip_ = 0;
@@ -236,9 +231,7 @@ bool Automaton::fetch_min_size() {
       return false;
     }
     shape[i - 1] = lua_tointeger(L, -1);
-    if (shape[i - 1] < shape_[i - 1]) {
-      shape[i - 1] = shape_[i - 1];
-    }
+
     lua_pop(L, 1);
   }
 
@@ -246,6 +239,11 @@ bool Automaton::fetch_min_size() {
   generation_0_.resize(shape);
   generation_1_.resize(shape);
   reset();
+
+  calc_local_states_size();
+
+  local_states_.resize({local_states_size_});
+  local_states_.fill(0);
 
   lua_pop(L, 1);
   lua_close(L);
@@ -304,8 +302,7 @@ void Automaton::random(const std::vector<double>& w) {
 // native recursive
 // TODO: use stack
 void Automaton::fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
-                                          xt::xarray<size_t>& c,
-                                          size_t axis) {
+                                          xt::xarray<size_t>& c, size_t axis) {
   if (axis == dim_) {
     for (size_t i = 0; i < axis; ++i) {
       if (c[i] == (size_t)-1) {
@@ -348,8 +345,7 @@ void Automaton::fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
 // native recursive
 // TODO: use stack
 // TODO: multithreading?
-bool Automaton::evolve_by_step_helper(lua_State*& L,
-                                      xt::xarray<size_t>& c,
+bool Automaton::evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c,
                                       size_t axis) {
   if (axis == dim_) {
     lua_getglobal(L, "local_evolve");

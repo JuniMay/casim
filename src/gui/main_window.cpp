@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   this->addToolBar(tool_bar_);
 
   timer_ = new QTimer(this);
-  timer_->setInterval(500);
+  timer_->setInterval(100);
 
   connect(tool_bar_, &ToolBar::reset_signal, viewer_, &Viewer::reset_camera);
 
@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
   connect(tool_bar_, &ToolBar::evolve_step_signal, this,
           &MainWindow::evolve_step);
+
   connect(tool_bar_, &ToolBar::open_folder_signal, file_tree_,
           &FileTree::open_folder);
 
@@ -59,7 +60,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   connect(tool_bar_, &ToolBar::random_signal, this,
           &MainWindow::random_pattern);
 
-  connect(timer_, &QTimer::timeout, this, MainWindow::evolve_step);
+  connect(timer_, &QTimer::timeout, this, &MainWindow::evolve_step);
 
   connect(viewer_, &Viewer::yaw_changed, config_editor_,
           &ConfigEditor::viewer_yaw_changed_from_viewer);
@@ -128,37 +129,6 @@ void MainWindow::evolve_step() {
 void MainWindow::load_script(const QString& script) {
   automaton_->set_script(script.toLocal8Bit().data());
   viewer_->reset_view();
-
-  //  automaton_->set_cell_state({15, 10}, 3);
-
-  //  automaton_->set_cell_state({14, 11}, 3);
-  //  automaton_->set_cell_state({14, 12}, 1);
-  //  automaton_->set_cell_state({14, 13}, 2);
-  //  automaton_->set_cell_state({14, 14}, 3);
-  //  automaton_->set_cell_state({14, 15}, 3);
-
-  //  automaton_->set_cell_state({15, 16}, 3);
-
-  //  automaton_->set_cell_state({16, 11}, 3);
-  //  automaton_->set_cell_state({16, 12}, 3);
-  //  automaton_->set_cell_state({16, 13}, 2);
-  //  automaton_->set_cell_state({16, 14}, 1);
-  //  automaton_->set_cell_state({16, 15}, 3);
-  automaton_->set_cell_state({15, 10}, 1);
-
-  automaton_->set_cell_state({14, 11}, 1);
-  automaton_->set_cell_state({14, 12}, 1);
-  automaton_->set_cell_state({14, 13}, 1);
-  automaton_->set_cell_state({14, 14}, 1);
-  automaton_->set_cell_state({14, 15}, 1);
-
-  automaton_->set_cell_state({15, 16}, 1);
-
-  automaton_->set_cell_state({16, 11}, 1);
-  automaton_->set_cell_state({16, 12}, 1);
-  automaton_->set_cell_state({16, 13}, 1);
-  automaton_->set_cell_state({16, 14}, 1);
-  automaton_->set_cell_state({16, 15}, 1);
   viewer_->display_automaton();
 }
 
@@ -217,7 +187,7 @@ void MainWindow::random_pattern() {
   std::vector<double> w;
   for (size_t i = 0; i < state_cnt; ++i) {
     w.push_back(100.0 / state_cnt);
-  } 
+  }
   automaton_->random(w);
   viewer_->display_automaton();
 }

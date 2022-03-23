@@ -56,7 +56,6 @@ class Automaton {
   // save current generation to `path`
   bool save_pattern_to_file(const std::string& path);
   // randomize
-  // TODO: specify posibility
   void random(const std::vector<double>& w);
 
  private:

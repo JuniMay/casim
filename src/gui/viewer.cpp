@@ -20,23 +20,35 @@ Viewer::Viewer(QWidget* parent)
           QVector3D::crossProduct({0.0f, 1.0f, 0.0f}, camera_direction_)),
       camera_up_(QVector3D::crossProduct(camera_direction_, camera_right_)) {
   this->setFocusPolicy(Qt::StrongFocus);
-  vertices_ = {-0.5f, -0.5f, -0.5f, 0.5f,  -0.5f, -0.5f, 0.5f,  0.5f,  -0.5f,
-               0.5f,  0.5f,  -0.5f, -0.5f, 0.5f,  -0.5f, -0.5f, -0.5f, -0.5f,
+  vertices_ = {-0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f, 0.5f,  -0.5f, -0.5f,
+               0.0f,  0.0f,  -1.0f, 0.5f,  0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f,
+               0.5f,  0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f, -0.5f, 0.5f,  -0.5f,
+               0.0f,  0.0f,  -1.0f, -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f,
 
-               -0.5f, -0.5f, 0.5f,  0.5f,  -0.5f, 0.5f,  0.5f,  0.5f,  0.5f,
-               0.5f,  0.5f,  0.5f,  -0.5f, 0.5f,  0.5f,  -0.5f, -0.5f, 0.5f,
+               -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,  1.0f,  0.5f,  -0.5f, 0.5f,
+               0.0f,  0.0f,  1.0f,  0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+               0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  -0.5f, 0.5f,  0.5f,
+               0.0f,  0.0f,  1.0f,  -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,  1.0f,
 
-               -0.5f, 0.5f,  0.5f,  -0.5f, 0.5f,  -0.5f, -0.5f, -0.5f, -0.5f,
-               -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f,  -0.5f, 0.5f,  0.5f,
+               -0.5f, 0.5f,  0.5f,  -1.0f, 0.0f,  0.0f,  -0.5f, 0.5f,  -0.5f,
+               -1.0f, 0.0f,  0.0f,  -0.5f, -0.5f, -0.5f, -1.0f, 0.0f,  0.0f,
+               -0.5f, -0.5f, -0.5f, -1.0f, 0.0f,  0.0f,  -0.5f, -0.5f, 0.5f,
+               -1.0f, 0.0f,  0.0f,  -0.5f, 0.5f,  0.5f,  -1.0f, 0.0f,  0.0f,
 
-               0.5f,  0.5f,  0.5f,  0.5f,  0.5f,  -0.5f, 0.5f,  -0.5f, -0.5f,
-               0.5f,  -0.5f, -0.5f, 0.5f,  -0.5f, 0.5f,  0.5f,  0.5f,  0.5f,
+               0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.5f,  0.5f,  -0.5f,
+               1.0f,  0.0f,  0.0f,  0.5f,  -0.5f, -0.5f, 1.0f,  0.0f,  0.0f,
+               0.5f,  -0.5f, -0.5f, 1.0f,  0.0f,  0.0f,  0.5f,  -0.5f, 0.5f,
+               1.0f,  0.0f,  0.0f,  0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-               -0.5f, -0.5f, -0.5f, 0.5f,  -0.5f, -0.5f, 0.5f,  -0.5f, 0.5f,
-               0.5f,  -0.5f, 0.5f,  -0.5f, -0.5f, 0.5f,  -0.5f, -0.5f, -0.5f,
+               -0.5f, -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f,  0.5f,  -0.5f, -0.5f,
+               0.0f,  -1.0f, 0.0f,  0.5f,  -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f,
+               0.5f,  -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f,  -0.5f, -0.5f, 0.5f,
+               0.0f,  -1.0f, 0.0f,  -0.5f, -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f,
 
-               -0.5f, 0.5f,  -0.5f, 0.5f,  0.5f,  -0.5f, 0.5f,  0.5f,  0.5f,
-               0.5f,  0.5f,  0.5f,  -0.5f, 0.5f,  0.5f,  -0.5f, 0.5f,  -0.5f};
+               -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,  0.0f,  0.5f,  0.5f,  -0.5f,
+               0.0f,  1.0f,  0.0f,  0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+               0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  -0.5f, 0.5f,  0.5f,
+               0.0f,  1.0f,  0.0f,  -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,  0.0f};
   cell_color_vectors_ = {
       {0.5f, 0.0f, 0.0f}, {0.0f, 0.5f, 0.0f}, {0.0f, 0.0f, 0.5f},
       {0.5f, 0.3f, 0.0f}, {0.5f, 0.3f, 0.6f},
@@ -75,11 +87,14 @@ void Viewer::initializeGL() {
   vbo_.create();
   vbo_.bind();
 
-  vbo_.allocate(vertices_.data(), sizeof(double) * vertices_.size());
+  vbo_.allocate(vertices_.data(), sizeof(float) * vertices_.size());
 
-  shader_program_.setAttributeBuffer("pos_", GL_DOUBLE, 0, 3,
-                                     sizeof(GLdouble) * 3);
+  shader_program_.setAttributeBuffer("pos_", GL_FLOAT, 0, 3,
+                                     sizeof(GLfloat) * 6);
   shader_program_.enableAttributeArray("pos_");
+  shader_program_.setAttributeBuffer("normal_", GL_FLOAT, sizeof(GLfloat) * 3,
+                                     3, sizeof(GLfloat) * 6);
+  shader_program_.enableAttributeArray("normal_");
 
   this->glEnable(GL_DEPTH_TEST);
 }
@@ -89,6 +104,13 @@ void Viewer::paintGL() {
   this->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   shader_program_.bind();
+
+  QVector3D light_color(1.0f, 1.0f, 1.0f);
+  QVector3D light_pos(-10, camera_pos_.y() - 10, camera_pos_.z() - 10);
+
+  shader_program_.setUniformValue("light_color", light_color);
+  shader_program_.setUniformValue("light_pos", light_pos);
+  shader_program_.setUniformValue("view_pos", camera_pos_);
 
   QMatrix4x4 view;
   view.lookAt(camera_pos_, camera_pos_ + camera_direction_, camera_up_);
@@ -165,10 +187,10 @@ void Viewer::keyPressEvent(QKeyEvent* event) {
     camera_pos_.setY(camera_pos_.y() + move_speed_);
   } else if (event->key() == Qt::Key_W) {
     emit cell_size_changed(cell_size_);
-    cell_size_ *= 1 + move_speed_;
+    cell_size_ *= 1 + move_speed_ * 0.1;
   } else if (event->key() == Qt::Key_S) {
     emit cell_size_changed(cell_size_);
-    cell_size_ *= 1 - move_speed_;
+    cell_size_ *= 1 - move_speed_ * 0.1;
   } else if (event->key() == Qt::Key_A) {
     camera_pos_ -=
         QVector3D::crossProduct(camera_direction_, camera_up_) * move_speed_;
