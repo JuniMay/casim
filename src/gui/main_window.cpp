@@ -37,6 +37,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   tool_bar_ = new ToolBar(this);
   this->addToolBar(tool_bar_);
 
+  timer_ = new QTimer(this);
+  timer_->setInterval(1500);
+
   connect(tool_bar_, &ToolBar::reset_signal, viewer_, &Viewer::reset_camera);
 
   automaton_ = QSharedPointer<casim::core::Automaton>(
@@ -46,6 +49,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   connect(tool_bar_, &ToolBar::evolve_step_signal, this,
           &MainWindow::evolve_step);
   connect(tool_bar_, &ToolBar::open_folder, file_tree_, &FileTree::open_folder);
+  connect(tool_bar_, &ToolBar::evolve_signal, this, &MainWindow::evolve);
+  connect(tool_bar_, &ToolBar::stop_signal, timer_, &QTimer::stop);
+  connect(timer_, &QTimer::timeout, this, MainWindow::evolve_step);
+ 
 
   connect(viewer_, &Viewer::yaw_changed, config_editor_,
           &ConfigEditor::viewer_yaw_changed_from_viewer);
@@ -91,10 +98,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 }
 
 void MainWindow::evolve() {
-  // TODO
-  automaton_->evolve_by_step();
-  viewer_->display_automaton();
+  timer_->start(0);
 }
+
 void MainWindow::evolve_step() {
   automaton_->evolve_by_step();
   viewer_->display_automaton();
@@ -151,6 +157,7 @@ void MainWindow::add_cell(const size_t& x,
   }
   viewer_->display_automaton();
 }
+
 void MainWindow::load_pattern() {
   QFileDialog dialog(this);
   QString path = dialog.getOpenFileName(this, tr("Open Pattern"), ".", "*.npy");
@@ -161,11 +168,13 @@ void MainWindow::load_pattern() {
   viewer_->reset_view();
   viewer_->display_automaton();
 }
+
 void MainWindow::file_tree_load_pattern(const QString& path) {
   automaton_->load_pattern_from_file(path.toLocal8Bit().data());
   viewer_->reset_view();
   viewer_->display_automaton();
 }
+
 void MainWindow::save_pattern() {
   QFileDialog dialog(this);
   dialog.setDefaultSuffix(".npy");
@@ -177,6 +186,7 @@ void MainWindow::save_pattern() {
   viewer_->reset_view();
   viewer_->display_automaton();
 }
+
 void MainWindow::reset_pattern() {
   automaton_->reset();
   viewer_->reset_view();

@@ -44,6 +44,8 @@ class MainWindow : public QMainWindow {
   QPointer<ToolBar> tool_bar_;
 
   QSharedPointer<casim::core::Automaton> automaton_;
+
+  QPointer<QTimer> timer_;
 };
 
 #endif

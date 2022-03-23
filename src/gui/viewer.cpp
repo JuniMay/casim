@@ -101,7 +101,7 @@ void Viewer::paintGL() {
   projection.ortho(-(float)width() / 2 / cell_size_,
                    (float)width() / 2 / cell_size_,
                    (float)height() / 2 / cell_size_,
-                   -(float)height() / 2 / cell_size_, -100, 100.0f);
+                   -(float)height() / 2 / cell_size_, -1000.0f, 1000.0f);
   shader_program_.setUniformValue("projection", projection);
   QOpenGLVertexArrayObject::Binder{&vao_};
   for (qsizetype i = 0; i < cell_positions_.size(); ++i) {

@@ -17,17 +17,26 @@ ToolBar::ToolBar(QWidget* parent) : QToolBar(parent) {
 
   connect(folder_action_, &QAction::triggered, this,
           &ToolBar::open_folder_triggered_handler);
+  connect(stop_action_, &QAction::triggered, this,
+          &ToolBar::stop_action_triggered_handler);
 }
 
 void ToolBar::evolve_action_triggered_handler() {
   emit evolve_signal();
 }
+
+void ToolBar::stop_action_triggered_handler() {
+  emit stop_signal();
+}
+
 void ToolBar::evolve_step_action_triggered_handler() {
   emit evolve_step_signal();
 }
+
 void ToolBar::reset_action_triggered_handler() {
   emit reset_signal();
 }
+
 void ToolBar::open_folder_triggered_handler() {
   emit open_folder();
 }

@@ -12,6 +12,7 @@
 #include <QtCore/QPointer>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QThread>
+#include <QtCore/QTimer>
 #include <QtGui/QColor>
 #include <QtGui/QFileSystemModel>
 #include <QtGui/QMatrix4x4>
