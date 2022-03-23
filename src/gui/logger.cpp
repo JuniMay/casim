@@ -1,6 +1,6 @@
 #include "gui/logger.hpp"
 
-Logger::Logger(QWidget *parent) : QWidget(parent) {
+Logger::Logger(QWidget* parent) : QWidget(parent) {
   layout_ = new QHBoxLayout(this);
   this->setLayout(layout_);
   text_edit_ = new QTextEdit;

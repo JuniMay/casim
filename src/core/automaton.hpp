@@ -10,7 +10,8 @@ namespace core {
 class Automaton {
  public:
   Automaton(const xt::xarray<size_t>& shape, const std::string& script);
-  Automaton(const xt::xarray<size_t>& shape, const std::string& script,
+  Automaton(const xt::xarray<size_t>& shape,
+            const std::string& script,
             const size_t& neighbor_radius);
 
   void set_shape(const xt::xarray<size_t>& shape);
@@ -36,7 +37,6 @@ class Automaton {
   bool evolve_by_step();
 
   bool fetch_all();
-
 
   bool load_pattern_from_file(const std::string& path);
 
@@ -65,7 +65,8 @@ class Automaton {
   size_t state_cnt_;
 
   void fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
-                                 xt::xarray<size_t>& c, size_t axis);
+                                 xt::xarray<size_t>& c,
+                                 size_t axis);
   bool evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c, size_t axis);
   void calc_local_states_size();
 

@@ -1,6 +1,6 @@
 #include "viewer_config.hpp"
 
-ViewerConfig::ViewerConfig(QWidget *parent) : QWidget(parent) {
+ViewerConfig::ViewerConfig(QWidget* parent) : QWidget(parent) {
   layout_ = new QVBoxLayout(this);
   this->setLayout(layout_);
 
@@ -72,17 +72,19 @@ ViewerConfig::ViewerConfig(QWidget *parent) : QWidget(parent) {
           &ViewerConfig::view_mode_handler);
 }
 
-void ViewerConfig::set_yaw(const float &yaw) { yaw_spin_box_->setValue(yaw); }
-void ViewerConfig::set_pitch(const float &pitch) {
+void ViewerConfig::set_yaw(const float& yaw) {
+  yaw_spin_box_->setValue(yaw);
+}
+void ViewerConfig::set_pitch(const float& pitch) {
   pitch_spin_box_->setValue(pitch);
 }
-void ViewerConfig::set_sensitivity(const float &sensitivity) {
+void ViewerConfig::set_sensitivity(const float& sensitivity) {
   sensitivity_spin_box_->setValue(sensitivity);
 }
-void ViewerConfig::set_move_speed(const float &move_speed) {
+void ViewerConfig::set_move_speed(const float& move_speed) {
   move_speed_spin_box_->setValue(move_speed);
 }
-void ViewerConfig::set_cell_size(const float &cell_size) {
+void ViewerConfig::set_cell_size(const float& cell_size) {
   cell_size_spin_box_->setValue(cell_size);
 }
 

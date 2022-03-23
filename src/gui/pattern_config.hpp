@@ -11,7 +11,9 @@ class PatternConfig : public QWidget {
   PatternConfig(QWidget* parent = nullptr);
 
  signals:
-  void add_signal(const size_t& x, const size_t& y, const size_t& z,
+  void add_signal(const size_t& x,
+                  const size_t& y,
+                  const size_t& z,
                   const uint32_t& state);
   void load_signal();
   void save_signal();

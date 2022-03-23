@@ -6,7 +6,7 @@
 class Logger : public QWidget {
   Q_OBJECT
  public:
-  explicit Logger(QWidget *parent = nullptr);
+  explicit Logger(QWidget* parent = nullptr);
 
  private:
   QPointer<QHBoxLayout> layout_;

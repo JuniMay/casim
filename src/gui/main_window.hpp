@@ -19,7 +19,9 @@ class MainWindow : public QMainWindow {
   void evolve();
   void evolve_step();
 
-  void add_cell(const size_t& x, const size_t& y, const size_t& z,
+  void add_cell(const size_t& x,
+                const size_t& y,
+                const size_t& z,
                 const uint32_t& state);
   void load_pattern();
   void file_tree_load_pattern(const QString& path);

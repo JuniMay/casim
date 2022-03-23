@@ -1,6 +1,6 @@
 #include "file_tree.hpp"
 
-FileTree::FileTree(QWidget *parent) : QTreeView{parent} {
+FileTree::FileTree(QWidget* parent) : QTreeView{parent} {
   model_ = new QFileSystemModel(this);
   model_->setRootPath(".");
   model_->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::AllEntries);
@@ -18,7 +18,7 @@ FileTree::FileTree(QWidget *parent) : QTreeView{parent} {
   connect(this, &FileTree::doubleClicked, this, &FileTree::open_file);
 }
 
-void FileTree::open_file(const QModelIndex &index) {
+void FileTree::open_file(const QModelIndex& index) {
   QFile file(model_->filePath(index));
   QFileInfo info(model_->filePath(index));
   if (info.suffix() == "lua") {

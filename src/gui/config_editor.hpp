@@ -18,7 +18,9 @@ class ConfigEditor : public QTabWidget {
   void viewer_move_speed_changed_from_viewer(const float& move_speed);
   void viewer_cell_size_changed_from_viewer(const float& cell_size);
 
-  void pattern_add(const size_t& x, const size_t& y, const size_t& z,
+  void pattern_add(const size_t& x,
+                   const size_t& y,
+                   const size_t& z,
                    const uint32_t& state);
   void pattern_load();
   void pattern_save();

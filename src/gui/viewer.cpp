@@ -1,6 +1,6 @@
 #include "gui/viewer.hpp"
 
-Viewer::Viewer(QWidget *parent)
+Viewer::Viewer(QWidget* parent)
     : QOpenGLWidget(parent),
       vbo_(QOpenGLBuffer::VertexBuffer),
       yaw_(0.0),
@@ -13,7 +13,8 @@ Viewer::Viewer(QWidget *parent)
       acc_cnt_(0),
       camera_pos_(0.0f, 0.0f, 0.0f),
       camera_target_(0.0f, 0.0f, 0.0f),
-      camera_direction_(cos(yaw_) * cos(pitch_), sin(pitch_),
+      camera_direction_(cos(yaw_) * cos(pitch_),
+                        sin(pitch_),
                         sin(yaw_) * cos(pitch_)),
       camera_right_(
           QVector3D::crossProduct({0.0f, 1.0f, 0.0f}, camera_direction_)),
@@ -111,10 +112,14 @@ void Viewer::paintGL() {
     this->glDrawArrays(GL_TRIANGLES, 0, 36);
   }
 }
-void Viewer::resizeGL(int w, int h) { this->glViewport(0, 0, w, h); }
+void Viewer::resizeGL(int w, int h) {
+  this->glViewport(0, 0, w, h);
+}
 
-void Viewer::mousePressEvent(QMouseEvent *event) { last_pos_ = event->pos(); }
-void Viewer::mouseMoveEvent(QMouseEvent *event) {
+void Viewer::mousePressEvent(QMouseEvent* event) {
+  last_pos_ = event->pos();
+}
+void Viewer::mouseMoveEvent(QMouseEvent* event) {
   if (event->buttons()) {
     double dx = event->pos().x() - last_pos_.x();
     double dy = event->pos().y() - last_pos_.y();
@@ -131,7 +136,7 @@ void Viewer::mouseMoveEvent(QMouseEvent *event) {
     update();
   }
 }
-void Viewer::wheelEvent(QWheelEvent *event) {
+void Viewer::wheelEvent(QWheelEvent* event) {
   float n = event->angleDelta().y();
 
   float x = event->position().x() - width() / 2;
@@ -151,7 +156,7 @@ void Viewer::wheelEvent(QWheelEvent *event) {
   update();
 }
 
-void Viewer::keyPressEvent(QKeyEvent *event) {
+void Viewer::keyPressEvent(QKeyEvent* event) {
   if (event->key() == Qt::Key_K) {
     camera_pos_.setY(camera_pos_.y() - move_speed_);
   } else if (event->key() == Qt::Key_J) {
@@ -216,7 +221,6 @@ void Viewer::reset_camera() {
 }
 
 void Viewer::reset_view() {
-  
   if (view_mode_ == ViewMode::Accumulate) {
     size_t dim = automaton_->get_dim();
     if (dim == 3) {
@@ -261,7 +265,8 @@ void Viewer::display_automaton() {
     for (size_t j = 0; j < shape3d[1]; ++j) {
       for (size_t k = 0; k < shape3d[2]; ++k) {
         uint32_t state = generation[{i, j, k}];
-        if (state == 0) continue;
+        if (state == 0)
+          continue;
         if (view_mode_ == ViewMode::Refresh) {
           cell_positions_.push_back({(float)i, (float)j, (float)k});
         } else {
@@ -282,7 +287,7 @@ void Viewer::display_automaton() {
   update();
 }
 
-void Viewer::set_yaw(const float &yaw) {
+void Viewer::set_yaw(const float& yaw) {
   yaw_ = yaw;
   camera_direction_.setX(cos(yaw_) * cos(pitch_));
   camera_direction_.setY(sin(pitch_));
@@ -290,7 +295,7 @@ void Viewer::set_yaw(const float &yaw) {
   update();
 }
 
-void Viewer::set_pitch(const float &pitch) {
+void Viewer::set_pitch(const float& pitch) {
   pitch_ = pitch;
   camera_direction_.setX(cos(yaw_) * cos(pitch_));
   camera_direction_.setY(sin(pitch_));
@@ -298,20 +303,20 @@ void Viewer::set_pitch(const float &pitch) {
   update();
 }
 
-void Viewer::set_sensitivity(const float &sensitivity) {
+void Viewer::set_sensitivity(const float& sensitivity) {
   sensitivity_ = sensitivity;
 }
 
-void Viewer::set_move_speed(const float &move_speed) {
+void Viewer::set_move_speed(const float& move_speed) {
   move_speed_ = move_speed;
 }
 
-void Viewer::set_cell_size(const float &cell_size) {
+void Viewer::set_cell_size(const float& cell_size) {
   cell_size_ = cell_size;
   update();
 }
 
-void Viewer::set_view_mode(const ViewMode &view_mode) {
+void Viewer::set_view_mode(const ViewMode& view_mode) {
   view_mode_ = view_mode;
   if (view_mode_ == ViewMode::Accumulate) {
     size_t dim = automaton_->get_dim();

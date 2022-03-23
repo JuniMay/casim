@@ -6,10 +6,10 @@
 class ScriptHighlighter : public QSyntaxHighlighter {
   Q_OBJECT
  public:
-  explicit ScriptHighlighter(QTextDocument *parent = nullptr);
+  explicit ScriptHighlighter(QTextDocument* parent = nullptr);
 
  protected:
-  void highlightBlock(const QString &text) override;
+  void highlightBlock(const QString& text) override;
 
  private:
   struct HighlightingRule {
@@ -29,10 +29,10 @@ class ScriptHighlighter : public QSyntaxHighlighter {
 class ScriptEditor : public QWidget {
   Q_OBJECT
  public:
-  explicit ScriptEditor(QWidget *parent = nullptr);
+  explicit ScriptEditor(QWidget* parent = nullptr);
 
  public slots:
-  void load_script(const QString &script);
+  void load_script(const QString& script);
 
  private:
   QPointer<QTextEdit> editor_;

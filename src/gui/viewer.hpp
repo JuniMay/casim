@@ -11,7 +11,7 @@ enum class ViewMode {
 class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   Q_OBJECT
  public:
-  explicit Viewer(QWidget *parent = nullptr);
+  explicit Viewer(QWidget* parent = nullptr);
 
   void set_automaton(QSharedPointer<casim::core::Automaton> automaton);
 
@@ -19,19 +19,19 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   virtual void initializeGL() override;
   virtual void paintGL() override;
   virtual void resizeGL(int w, int h) override;
-  virtual void mousePressEvent(QMouseEvent *event) override;
-  virtual void mouseMoveEvent(QMouseEvent *event) override;
-  virtual void wheelEvent(QWheelEvent *event) override;
-  virtual void keyPressEvent(QKeyEvent *event) override;
+  virtual void mousePressEvent(QMouseEvent* event) override;
+  virtual void mouseMoveEvent(QMouseEvent* event) override;
+  virtual void wheelEvent(QWheelEvent* event) override;
+  virtual void keyPressEvent(QKeyEvent* event) override;
 
  signals:
   // changes very frequently
-  void yaw_changed(const float &yaw);
-  void pitch_changed(const float &pitch);
+  void yaw_changed(const float& yaw);
+  void pitch_changed(const float& pitch);
   // these two below are mainly used in initialization part
-  void sensitivity_changed(const float &sensitivity);
-  void move_speed_changed(const float &move_speed);
-  void cell_size_changed(const float &cell_size);
+  void sensitivity_changed(const float& sensitivity);
+  void move_speed_changed(const float& move_speed);
+  void cell_size_changed(const float& cell_size);
 
  public slots:
   void reset_camera();
@@ -39,13 +39,13 @@ class Viewer : public QOpenGLWidget, public QOpenGLExtraFunctions {
   void display_automaton();
 
   // slots for xxx_set from config_editor
-  void set_yaw(const float &yaw);
-  void set_pitch(const float &pitch);
-  void set_sensitivity(const float &sensitivity);
-  void set_move_speed(const float &move_speed);
-  void set_cell_size(const float &cell_size);
+  void set_yaw(const float& yaw);
+  void set_pitch(const float& pitch);
+  void set_sensitivity(const float& sensitivity);
+  void set_move_speed(const float& move_speed);
+  void set_cell_size(const float& cell_size);
 
-  void set_view_mode(const ViewMode &view_mode);
+  void set_view_mode(const ViewMode& view_mode);
 
  private:
   QOpenGLVertexArrayObject vao_;

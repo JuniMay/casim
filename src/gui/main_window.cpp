@@ -137,7 +137,9 @@ void MainWindow::load_script(const QString& script) {
   viewer_->display_automaton();
 }
 
-void MainWindow::add_cell(const size_t& x, const size_t& y, const size_t& z,
+void MainWindow::add_cell(const size_t& x,
+                          const size_t& y,
+                          const size_t& z,
                           const uint32_t& state) {
   size_t dim = automaton_->get_dim();
   if (dim == 1) {
@@ -153,7 +155,8 @@ void MainWindow::load_pattern() {
   QFileDialog dialog(this);
   QString path = dialog.getOpenFileName(this, tr("Open Pattern"), ".", "*.npy");
   //  qDebug() << path;
-  if (path == "") return;
+  if (path == "")
+    return;
   automaton_->load_pattern_from_file(path.toLocal8Bit().data());
   viewer_->reset_view();
   viewer_->display_automaton();
@@ -168,7 +171,8 @@ void MainWindow::save_pattern() {
   dialog.setDefaultSuffix(".npy");
   QString path = dialog.getSaveFileName(this, tr("Save Pattern"), ".", "*.npy");
   //  qDebug() << path;
-  if (path == "") return;
+  if (path == "")
+    return;
   automaton_->save_pattern_to_file(path.toLocal8Bit().data());
   viewer_->reset_view();
   viewer_->display_automaton();
