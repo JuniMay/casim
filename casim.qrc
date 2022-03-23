@@ -8,5 +8,6 @@
         <file>assets/folder.png</file>
         <file>assets/stop.png</file>
         <file>assets/reset.png</file>
+        <file>assets/random.png</file>
     </qresource>
 </RCC>

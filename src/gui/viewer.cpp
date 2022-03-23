@@ -112,6 +112,7 @@ void Viewer::paintGL() {
     this->glDrawArrays(GL_TRIANGLES, 0, 36);
   }
 }
+
 void Viewer::resizeGL(int w, int h) {
   this->glViewport(0, 0, w, h);
 }
@@ -119,6 +120,7 @@ void Viewer::resizeGL(int w, int h) {
 void Viewer::mousePressEvent(QMouseEvent* event) {
   last_pos_ = event->pos();
 }
+
 void Viewer::mouseMoveEvent(QMouseEvent* event) {
   if (event->buttons()) {
     double dx = event->pos().x() - last_pos_.x();
@@ -228,7 +230,6 @@ void Viewer::reset_view() {
       return;
     }
     acc_axis_ = dim;
-    acc_cnt_ = 0;
   }
 
   acc_cnt_ = 0;

@@ -38,43 +38,59 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
   this->addToolBar(tool_bar_);
 
   timer_ = new QTimer(this);
-  timer_->setInterval(1500);
+  timer_->setInterval(500);
 
   connect(tool_bar_, &ToolBar::reset_signal, viewer_, &Viewer::reset_camera);
 
   automaton_ = QSharedPointer<casim::core::Automaton>(
-      new casim::core::Automaton({200, 200}, "", 1));  // TODO
+      new casim::core::Automaton({500, 500}, "", 1));  // TODO
+
   viewer_->set_automaton(automaton_);
 
   connect(tool_bar_, &ToolBar::evolve_step_signal, this,
           &MainWindow::evolve_step);
-  connect(tool_bar_, &ToolBar::open_folder, file_tree_, &FileTree::open_folder);
+  connect(tool_bar_, &ToolBar::open_folder_signal, file_tree_,
+          &FileTree::open_folder);
+
   connect(tool_bar_, &ToolBar::evolve_signal, this, &MainWindow::evolve);
+
   connect(tool_bar_, &ToolBar::stop_signal, timer_, &QTimer::stop);
+
+  connect(tool_bar_, &ToolBar::random_signal, this,
+          &MainWindow::random_pattern);
+
   connect(timer_, &QTimer::timeout, this, MainWindow::evolve_step);
- 
 
   connect(viewer_, &Viewer::yaw_changed, config_editor_,
           &ConfigEditor::viewer_yaw_changed_from_viewer);
+
   connect(viewer_, &Viewer::pitch_changed, config_editor_,
           &ConfigEditor::viewer_pitch_changed_from_viewer);
+
   connect(viewer_, &Viewer::sensitivity_changed, config_editor_,
           &ConfigEditor::viewer_sensitivity_changed_from_viewer);
+
   connect(viewer_, &Viewer::move_speed_changed, config_editor_,
           &ConfigEditor::viewer_move_speed_changed_from_viewer);
+
   connect(viewer_, &Viewer::cell_size_changed, config_editor_,
           &ConfigEditor::viewer_cell_size_changed_from_viewer);
 
   connect(config_editor_, &ConfigEditor::viewer_yaw_changed_from_config,
           viewer_, &Viewer::set_yaw);
+
   connect(config_editor_, &ConfigEditor::viewer_pitch_changed_from_config,
           viewer_, &Viewer::set_pitch);
+
   connect(config_editor_, &ConfigEditor::viewer_sensitivity_changed_from_config,
           viewer_, &Viewer::set_sensitivity);
+
   connect(config_editor_, &ConfigEditor::viewer_move_speed_changed_from_config,
           viewer_, &Viewer::set_move_speed);
+
   connect(config_editor_, &ConfigEditor::viewer_cell_size_changed_from_config,
           viewer_, &Viewer::set_cell_size);
+
   connect(config_editor_, &ConfigEditor::viewer_view_mode_changed_from_config,
           viewer_, &Viewer::set_view_mode);
 
@@ -89,16 +105,19 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
   connect(config_editor_, &ConfigEditor::pattern_add, this,
           &MainWindow::add_cell);
+
   connect(config_editor_, &ConfigEditor::pattern_load, this,
           &MainWindow::load_pattern);
+
   connect(config_editor_, &ConfigEditor::pattern_save, this,
           &MainWindow::save_pattern);
+
   connect(config_editor_, &ConfigEditor::pattern_reset, this,
           &MainWindow::reset_pattern);
 }
 
 void MainWindow::evolve() {
-  timer_->start(0);
+  timer_->start();
 }
 
 void MainWindow::evolve_step() {
@@ -107,8 +126,8 @@ void MainWindow::evolve_step() {
 }
 
 void MainWindow::load_script(const QString& script) {
-  viewer_->reset_view();
   automaton_->set_script(script.toLocal8Bit().data());
+  viewer_->reset_view();
 
   //  automaton_->set_cell_state({15, 10}, 3);
 
@@ -190,5 +209,15 @@ void MainWindow::save_pattern() {
 void MainWindow::reset_pattern() {
   automaton_->reset();
   viewer_->reset_view();
+  viewer_->display_automaton();
+}
+
+void MainWindow::random_pattern() {
+  size_t state_cnt = automaton_->get_state_cnt();
+  std::vector<double> w;
+  for (size_t i = 0; i < state_cnt; ++i) {
+    w.push_back(100.0 / state_cnt);
+  } 
+  automaton_->random(w);
   viewer_->display_automaton();
 }

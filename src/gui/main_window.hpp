@@ -27,6 +27,7 @@ class MainWindow : public QMainWindow {
   void file_tree_load_pattern(const QString& path);
   void save_pattern();
   void reset_pattern();
+  void random_pattern();
 
  private:
   QPointer<QWidget> widget_;

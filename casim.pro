@@ -5,7 +5,6 @@ INCLUDEPATH += \
         . \
         ./src \
         ./third_party
-
 #CONFIG += console
 
 HEADERS += \

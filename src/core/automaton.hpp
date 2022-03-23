@@ -55,6 +55,9 @@ class Automaton {
   bool load_pattern_from_file(const std::string& path);
   // save current generation to `path`
   bool save_pattern_to_file(const std::string& path);
+  // randomize
+  // TODO: specify posibility
+  void random(const std::vector<double>& w);
 
  private:
   // the lua script for the rule

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <iostream>
+#include <random>
 #include "third_party/lua/lua.hpp"
 #include "third_party/xtensor/xarray.hpp"
 #include "third_party/xtensor/xio.hpp"

@@ -292,6 +292,15 @@ bool Automaton::save_pattern_to_file(const std::string& path) {
   return true;
 }
 
+void Automaton::random(const std::vector<double>& w) {
+  reset();
+  std::mt19937 engine(time(0));
+  std::discrete_distribution dist(w.begin(), w.end());
+  for (auto iter = generation_0_.begin(); iter != generation_0_.end(); iter++) {
+    *iter = dist(engine);
+  }
+}
+
 // native recursive
 // TODO: use stack
 void Automaton::fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
