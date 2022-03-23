@@ -1,6 +1,6 @@
 #include "gui/script_editor.hpp"
 
-ScriptHighlighter::ScriptHighlighter(QTextDocument *parent)
+ScriptHighlighter::ScriptHighlighter(QTextDocument* parent)
     : QSyntaxHighlighter(parent) {
   HighlightingRule rule;
   keyword_format_.setForeground(Qt::darkBlue);
@@ -18,7 +18,7 @@ ScriptHighlighter::ScriptHighlighter(QTextDocument *parent)
       QStringLiteral("\\breturn\\b"),   QStringLiteral("\\btrue\\b"),
       QStringLiteral("\\buntil\\b"),    QStringLiteral("\\bwhile\\b"),
   };
-  for (const QString &regex_rule : keyword_regex_rules) {
+  for (const QString& regex_rule : keyword_regex_rules) {
     rule.regex_rule = QRegularExpression(regex_rule);
     rule.format = keyword_format_;
     highting_rules_.append(rule);
@@ -42,8 +42,8 @@ ScriptHighlighter::ScriptHighlighter(QTextDocument *parent)
   highting_rules_.append(rule);
 }
 
-void ScriptHighlighter::highlightBlock(const QString &text) {
-  for (const HighlightingRule &rule : qAsConst(highting_rules_)) {
+void ScriptHighlighter::highlightBlock(const QString& text) {
+  for (const HighlightingRule& rule : qAsConst(highting_rules_)) {
     QRegularExpressionMatchIterator match_iter =
         rule.regex_rule.globalMatch(text);
     while (match_iter.hasNext()) {
@@ -53,7 +53,7 @@ void ScriptHighlighter::highlightBlock(const QString &text) {
   }
 }
 
-ScriptEditor::ScriptEditor(QWidget *parent) : QWidget(parent) {
+ScriptEditor::ScriptEditor(QWidget* parent) : QWidget(parent) {
   QFont font;
   font.setFamily("Consolas");
   font.setFixedPitch(true);
@@ -77,6 +77,6 @@ ScriptEditor::ScriptEditor(QWidget *parent) : QWidget(parent) {
   layout_->addWidget(editor_);
 }
 
-void ScriptEditor::load_script(const QString &script) {
+void ScriptEditor::load_script(const QString& script) {
   editor_->setText(script);
 }
