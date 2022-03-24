@@ -25,6 +25,9 @@ class ConfigEditor : public QTabWidget {
   void pattern_load();
   void pattern_save();
   void pattern_reset();
+  void pattern_resize(const size_t& depth,
+                      const size_t& height,
+                      const size_t& width);
 
   // from viewer_config_
   void viewer_yaw_changed_from_config(const float& yaw);

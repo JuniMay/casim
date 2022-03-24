@@ -340,6 +340,8 @@ void Viewer::set_cell_size(const float& cell_size) {
 }
 
 void Viewer::set_view_mode(const ViewMode& view_mode) {
+  cell_positions_.clear();
+  cell_color_vectors_.clear();
   view_mode_ = view_mode;
   if (view_mode_ == ViewMode::Accumulate) {
     size_t dim = automaton_->get_dim();

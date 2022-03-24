@@ -53,4 +53,6 @@ ConfigEditor::ConfigEditor(QWidget* parent) : QTabWidget(parent) {
           &ConfigEditor::pattern_save);
   connect(pattern_config_, &PatternConfig::reset_signal, this,
           &ConfigEditor::pattern_reset);
+  connect(pattern_config_, &PatternConfig::resize_signal, this,
+          &ConfigEditor::pattern_resize);
 }

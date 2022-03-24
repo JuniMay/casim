@@ -28,6 +28,9 @@ class MainWindow : public QMainWindow {
   void save_pattern();
   void reset_pattern();
   void random_pattern();
+  void resize_automaton(const size_t& depth,
+                        const size_t& height,
+                        const size_t& width);
 
  private:
   QPointer<QWidget> widget_;

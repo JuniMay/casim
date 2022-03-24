@@ -115,6 +115,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
   connect(config_editor_, &ConfigEditor::pattern_reset, this,
           &MainWindow::reset_pattern);
+
+  connect(config_editor_, &ConfigEditor::pattern_resize, this,
+          &MainWindow::resize_automaton);
 }
 
 void MainWindow::evolve() {
@@ -189,5 +192,19 @@ void MainWindow::random_pattern() {
     w.push_back(100.0 / state_cnt);
   }
   automaton_->random(w);
+  viewer_->reset_view();
   viewer_->display_automaton();
+}
+
+void MainWindow::resize_automaton(const size_t& depth,
+                                  const size_t& height,
+                                  const size_t& width) {
+  size_t dim = automaton_->get_dim();
+  if (dim == 1) {
+    automaton_->set_shape({width});
+  } else if (dim == 2) {
+    automaton_->set_shape({height, width});
+  } else if (dim == 3) {
+    automaton_->set_shape({depth, height, width});
+  }
 }
