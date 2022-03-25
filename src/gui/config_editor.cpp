@@ -13,11 +13,6 @@ ConfigEditor::ConfigEditor(QWidget* parent) : QTabWidget(parent) {
   pattern_config_scroll_area_->setWidgetResizable(true);
   this->addTab(pattern_config_scroll_area_, tr("Pattern"));
 
-  dummy1_ = new QWidget(this);
-  dummy2_ = new QWidget(this);
-  this->addTab(dummy1_, "Rule");
-  this->addTab(dummy2_, "Color");
-
   // The ConfigEditor is basicly a intermeidate for signals
   // Qt's signals and slots are reallu annoying.
   // If anyone knows a better solution please let me know.

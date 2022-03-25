@@ -9,6 +9,7 @@ ToolBar::ToolBar(QWidget* parent) : QToolBar(parent) {
   stop_action_ = this->addAction(QIcon(":/assets/stop.png"), tr("Stop"));
   reset_action_ = this->addAction(QIcon(":/assets/reset.png"), tr("Reset"));
   random_action_ = this->addAction(QIcon(":/assets/random.png"), tr("Random"));
+  help_action_ = this->addAction(QIcon(":/assets/help.png"), tr("Help"));
 
   connect(evolve_action_, &QAction::triggered, this, &ToolBar::evolve_handler);
   connect(evolve_step_action_, &QAction::triggered, this,
@@ -19,6 +20,7 @@ ToolBar::ToolBar(QWidget* parent) : QToolBar(parent) {
           &ToolBar::open_folder_handler);
   connect(stop_action_, &QAction::triggered, this, &ToolBar::stop_handler);
   connect(random_action_, &QAction::triggered, this, &ToolBar::random_signal);
+  connect(help_action_, &QAction::triggered, this, &ToolBar::help_handler);
 }
 
 void ToolBar::evolve_handler() {
@@ -43,4 +45,9 @@ void ToolBar::open_folder_handler() {
 
 void ToolBar::random_handler() {
   emit random_signal();
+}
+
+void ToolBar::help_handler() {
+  QPointer<HelpWidget> help_widget_ = new HelpWidget();
+  help_widget_->show();
 }

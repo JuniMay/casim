@@ -23,6 +23,7 @@ HEADERS += \
     src/gui/logger.hpp \
     src/gui/viewer_config.hpp \
     src/gui/pattern_config.hpp \
+    src/gui/help_widget.hpp \
     third_party/lua/lapi.h \
     third_party/lua/lauxlib.h \
     third_party/lua/lcode.h \
@@ -64,6 +65,7 @@ SOURCES += \
     src/gui/main_window.cpp \
     src/gui/viewer_config.cpp \
     src/gui/pattern_config.cpp \
+    src/gui/help_widget.cpp \
     third_party/lua/lapi.c \
     third_party/lua/lauxlib.c \
     third_party/lua/lbaselib.c \

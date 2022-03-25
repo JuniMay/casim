@@ -20,6 +20,7 @@
 #include <QtGui/QOpenGLExtraFunctions>
 #include <QtGui/QPainter>
 #include <QtGui/QSyntaxHighlighter>
+#include <QtGui/QWindow>
 #include <QtOpenGL/QOpenGLBuffer>
 #include <QtOpenGL/QOpenGLShaderProgram>
 #include <QtOpenGL/QOpenGLVertexArrayObject>

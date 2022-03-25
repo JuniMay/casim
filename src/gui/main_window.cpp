@@ -204,6 +204,10 @@ void MainWindow::reset_pattern() {
 void MainWindow::random_pattern() {
   logger_->log("Randomizing pattern...");
   size_t state_cnt = automaton_->get_state_cnt();
+  if (state_cnt == 0) {
+    logger_->log("Randomizing failed: No states specified.");
+    return;
+  }
   logger_->log("Done.");
   std::vector<double> w;
   for (size_t i = 0; i < state_cnt; ++i) {

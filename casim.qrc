@@ -11,5 +11,11 @@
         <file>assets/random.png</file>
         <file>assets/icon.png</file>
         <file>assets/icon.ico</file>
+        <file>assets/help.png</file>
+        <file>third_party/lua/LICENSE</file>
+        <file>third_party/xtensor/LICENSE</file>
+        <file>third_party/xtl/LICENSE</file>
+        <file>third_party/freeglut/COPYING</file>
+        <file>LICENSE</file>
     </qresource>
 </RCC>

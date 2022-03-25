@@ -48,7 +48,7 @@ class Automaton {
   // evolve single step to next generation
   bool evolve();
   // fetch all config from lua script
-  bool fetch_all();
+  void fetch_all();
   // load `*.npy` file from `path`
   //   after loading the shape of the generation buffer is set to the shape in
   //   `*.npy` file

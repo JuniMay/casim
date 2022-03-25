@@ -38,7 +38,6 @@ class ConfigEditor : public QTabWidget {
   void viewer_view_mode_changed_from_config(const ViewMode& view_mode);
 
  private:
-  QPointer<QWidget> dummy1_, dummy2_;  //
   QPointer<QScrollArea> viewer_config_scroll_area_;
   QPointer<QScrollArea> pattern_config_scroll_area_;
   QPointer<PatternConfig> pattern_config_;

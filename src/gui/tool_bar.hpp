@@ -3,6 +3,8 @@
 
 #include "gui/common.hpp"
 
+#include "help_widget.hpp"
+
 class ToolBar : public QToolBar {
   Q_OBJECT
  public:
@@ -24,6 +26,8 @@ class ToolBar : public QToolBar {
   void open_folder_handler();
   void random_handler();
 
+  void help_handler();
+
  private:
   QPointer<QAction> evolve_action_;
   QPointer<QAction> evolve_step_action_;
@@ -31,6 +35,7 @@ class ToolBar : public QToolBar {
   QPointer<QAction> open_folder_action_;
   QPointer<QAction> reset_action_;
   QPointer<QAction> random_action_;
+  QPointer<QAction> help_action_;
 };
 
 #endif  // CASIM_GUI_TOOL_BAR_HPP_

@@ -29,7 +29,8 @@ Automaton::Automaton(const xt::xarray<size_t>& shape,
   fetch_all();
 }
 
-Automaton::Automaton(const xt::xarray<size_t>& shape, const std::string& script,
+Automaton::Automaton(const xt::xarray<size_t>& shape,
+                     const std::string& script,
                      const size_t& neighbor_radius) {
   shape_ = shape;
   script_ = script;
@@ -84,13 +85,21 @@ const xt::xarray<uint32_t>& Automaton::get_curr_generation() {
   }
 }
 
-const xt::xarray<size_t>& Automaton::get_shape() { return shape_; }
+const xt::xarray<size_t>& Automaton::get_shape() {
+  return shape_;
+}
 
-const std::string& Automaton::get_script() { return script_; }
+const std::string& Automaton::get_script() {
+  return script_;
+}
 
-const size_t& Automaton::get_neighbor_radius() { return neighbor_radius_; }
+const size_t& Automaton::get_neighbor_radius() {
+  return neighbor_radius_;
+}
 
-const std::string& Automaton::get_name() { return name_; }
+const std::string& Automaton::get_name() {
+  return name_;
+}
 
 const std::string& Automaton::get_default_color() {
   return state_color_list_[0];
@@ -100,9 +109,13 @@ const std::vector<std::string>& Automaton::get_state_color_list() {
   return state_color_list_;
 }
 
-const size_t& Automaton::get_state_cnt() { return state_cnt_; }
+const size_t& Automaton::get_state_cnt() {
+  return state_cnt_;
+}
 
-const size_t& Automaton::get_dim() { return dim_; }
+const size_t& Automaton::get_dim() {
+  return dim_;
+}
 
 void Automaton::reset() {
   flip_ = 0;
@@ -269,27 +282,26 @@ bool Automaton::fetch_neighbor_radius() {
   return true;
 }
 
-bool Automaton::fetch_all() {
+void Automaton::fetch_all() {
   if (!fetch_name()) {
-    // return false;
+    name_ = "";
   }
   if (!fetch_state_cnt()) {
-    return false;
+    state_cnt_ = 0;
   }
   if (!fetch_state_color_list()) {
-    return false;
+    //
   }
   if (!fetch_dim()) {
-    return false;
+    dim_ = 0;
   }
   if (!fetch_min_size()) {
-    return false;
+    //
   }
   if (!fetch_neighbor_radius()) {
-    return false;
+    neighbor_radius_ = 0;
   }
   reset();
-  return true;
 }
 
 bool Automaton::load_pattern_from_file(const std::string& path) {
@@ -324,7 +336,8 @@ void Automaton::random(const std::vector<double>& w) {
 // native recursive
 // TODO: use stack
 void Automaton::fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
-                                          xt::xarray<size_t>& c, size_t axis) {
+                                          xt::xarray<size_t>& c,
+                                          size_t axis) {
   if (axis == dim_) {
     for (size_t i = 0; i < axis; ++i) {
       if (c[i] == (size_t)-1) {
@@ -367,8 +380,9 @@ void Automaton::fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
 // native recursive
 // TODO: use stack
 // TODO: multithreading?
-bool Automaton::evolve_helper(lua_State*& L, xt::xarray<size_t>& c,
-                                      size_t axis) {
+bool Automaton::evolve_helper(lua_State*& L,
+                              xt::xarray<size_t>& c,
+                              size_t axis) {
   if (axis == dim_) {
     lua_getglobal(L, "local_evolve");
     if (!lua_isfunction(L, -1)) {
