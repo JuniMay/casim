@@ -9,5 +9,6 @@
 *.o
 *.pro.user
 *.swp
+*.rc
 .qmake.stash
 Makefile

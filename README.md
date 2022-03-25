@@ -5,7 +5,7 @@
 
 **C**ellular **A**utomata **SIM**ulator
 
-A simulator for cellular automata using lua to define rules.
+A simulator for cellular automata using lua to define rules, available for 3D CA.
 
 ## Usage
 
@@ -22,4 +22,4 @@ Casim depends on `xtensor` `xlt` and `lua`. The licenses of these libraries are 
 - [ ] Auto adjusting for viewer
 - [ ] Error handling for Automaton
 - [x] Neighbor radius from script
-- [ ] Messages & information
+- [x] Messages & information

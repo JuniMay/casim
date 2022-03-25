@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow {
  public slots:
   void load_script(const QString& script);
   void evolve();
+  void stop_evolve();
   void evolve_step();
 
   void add_cell(const size_t& x,

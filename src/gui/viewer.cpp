@@ -257,6 +257,7 @@ void Viewer::reset_view() {
   acc_cnt_ = 0;
   cell_positions_.clear();
   cell_color_vectors_.clear();
+  update();
 }
 
 void Viewer::display_automaton() {
@@ -352,4 +353,5 @@ void Viewer::set_view_mode(const ViewMode& view_mode) {
     acc_axis_ = dim;
     acc_cnt_ = 0;
   }
+  update();
 }

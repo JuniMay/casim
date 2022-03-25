@@ -99,3 +99,5 @@ SOURCES += \
 
 RESOURCES += \
     casim.qrc
+
+RC_ICONS = assets/icon.ico

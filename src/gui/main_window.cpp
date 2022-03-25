@@ -2,8 +2,7 @@
 #include "gui/main_window.hpp"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
-
-  this->setWindowIcon(QIcon(":/assets/icon.png"));
+  this->setWindowIcon(QIcon(":/assets/icon.ico"));
   this->setWindowTitle("Casim");
 
   this->resize(1080, 720);
@@ -59,7 +58,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
   connect(tool_bar_, &ToolBar::evolve_signal, this, &MainWindow::evolve);
 
-  connect(tool_bar_, &ToolBar::stop_signal, timer_, &QTimer::stop);
+  connect(tool_bar_, &ToolBar::stop_signal, this, &MainWindow::stop_evolve);
 
   connect(tool_bar_, &ToolBar::random_signal, this,
           &MainWindow::random_pattern);
@@ -125,7 +124,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 }
 
 void MainWindow::evolve() {
+  logger_->log("Start Evolving...");
   timer_->start();
+}
+void MainWindow::stop_evolve() {
+  logger_->log("Stop Evolving.");
+  timer_->stop();
 }
 
 void MainWindow::evolve_step() {
@@ -149,7 +153,7 @@ void MainWindow::add_cell(const size_t& x,
   } else if (dim == 2) {
     automaton_->set_cell_state({y, x}, state);
   } else if (dim == 3) {
-    automaton_->set_cell_state({z, y, z}, state);
+    automaton_->set_cell_state({z, y, x}, state);
   }
   viewer_->display_automaton();
 }
@@ -157,16 +161,21 @@ void MainWindow::add_cell(const size_t& x,
 void MainWindow::load_pattern() {
   QFileDialog dialog(this);
   QString path = dialog.getOpenFileName(this, tr("Open Pattern"), ".", "*.npy");
-  //  qDebug() << path;
+
   if (path == "")
     return;
+  logger_->log("Loading pattern from " + path);
+  //  qDebug() << path;
   automaton_->load_pattern_from_file(path.toLocal8Bit().data());
+  logger_->log("Done.");
   viewer_->reset_view();
   viewer_->display_automaton();
 }
 
 void MainWindow::file_tree_load_pattern(const QString& path) {
+  logger_->log("Loading pattern from " + path);
   automaton_->load_pattern_from_file(path.toLocal8Bit().data());
+  logger_->log("Done.");
   viewer_->reset_view();
   viewer_->display_automaton();
 }
@@ -178,19 +187,24 @@ void MainWindow::save_pattern() {
   //  qDebug() << path;
   if (path == "")
     return;
+  logger_->log("Saving pattern to " + path);
   automaton_->save_pattern_to_file(path.toLocal8Bit().data());
+  logger_->log("Done.");
   viewer_->reset_view();
   viewer_->display_automaton();
 }
 
 void MainWindow::reset_pattern() {
+  logger_->log("Reset pattern.");
   automaton_->reset();
   viewer_->reset_view();
   viewer_->display_automaton();
 }
 
 void MainWindow::random_pattern() {
+  logger_->log("Randomizing pattern...");
   size_t state_cnt = automaton_->get_state_cnt();
+  logger_->log("Done.");
   std::vector<double> w;
   for (size_t i = 0; i < state_cnt; ++i) {
     w.push_back(100.0 / state_cnt);
@@ -211,4 +225,6 @@ void MainWindow::resize_automaton(const size_t& depth,
   } else if (dim == 3) {
     automaton_->set_shape({depth, height, width});
   }
+  viewer_->reset_view();
+  viewer_->display_automaton();
 }

@@ -8,9 +8,14 @@ class Logger : public QWidget {
  public:
   explicit Logger(QWidget* parent = nullptr);
 
+  void log(const QString& msg);
+
  private:
   QPointer<QHBoxLayout> layout_;
   QPointer<QTextEdit> text_edit_;
+
+  QPointer<QTextDocument> document_;
+  QString buffer_;
 };
 
 #endif

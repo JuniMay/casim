@@ -10,5 +10,6 @@
         <file>assets/reset.png</file>
         <file>assets/random.png</file>
         <file>assets/icon.png</file>
+        <file>assets/icon.ico</file>
     </qresource>
 </RCC>

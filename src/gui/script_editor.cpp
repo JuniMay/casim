@@ -31,14 +31,14 @@ ScriptHighlighter::ScriptHighlighter(QTextDocument* parent)
   rule.format = function_format_;
   highting_rules_.append(rule);
 
-  string_format_.setForeground(Qt::darkYellow);
-  rule.regex_rule = QRegularExpression(QStringLiteral("\".*\""));
-  rule.format = string_format_;
-  highting_rules_.append(rule);
-
   number_format_.setForeground(Qt::darkMagenta);
   rule.regex_rule = QRegularExpression(QStringLiteral("[0-9]+"));
   rule.format = number_format_;
+  highting_rules_.append(rule);
+
+  string_format_.setForeground(Qt::darkYellow);
+  rule.regex_rule = QRegularExpression(QStringLiteral("\".*\""));
+  rule.format = string_format_;
   highting_rules_.append(rule);
 }
 
@@ -57,7 +57,7 @@ ScriptEditor::ScriptEditor(QWidget* parent) : QWidget(parent) {
   QFont font;
   font.setFamily("Consolas");
   font.setFixedPitch(true);
-  font.setPointSize(12);
+  font.setPointSize(10);
   layout_ = new QHBoxLayout(this);
 
   editor_ = new QTextEdit;
