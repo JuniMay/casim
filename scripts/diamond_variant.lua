@@ -1,4 +1,4 @@
-name            = "Diamon Growth"
+name            = "Diamon Growth Variant"
 state_count     = 7
 color       = { 
     "#000000", "#0072bb", "#0067a5", "#0047ab", 
@@ -10,24 +10,7 @@ neighbor_radius = 1
 
 function local_evolve(x)
     local sum = 0
-    if (x[5] ~= 0) then
-        sum = sum + 1
-    end
-    if (x[11] ~= 0) then
-        sum = sum + 1
-    end
-    if (x[13] ~= 0) then
-        sum = sum + 1
-    end
-    if (x[15] ~= 0) then
-        sum = sum + 1
-    end
-    if (x[17] ~= 0) then
-        sum = sum + 1
-    end
-    if (x[23] ~= 0) then
-        sum = sum + 1
-    end
+    sum = x[5] + x[11] + x[13] + x[15] + x[17] + x[23]
     if (x[14] == 1) then
         if (sum >= 5 and sum <= 6) then
             return 1
