@@ -1,8 +1,9 @@
-name        = "Brian's Brain"
-color       = { "#000000", "#9400d3", "#ff3030", "#ffd700" }
-state_count = 4
-dimensions  = 2
-min_size    = { 100, 100 }
+name            = "Brian's Brain"
+color           = { "#000000", "#9400d3", "#ff3030", "#ffd700" }
+state_count     = 4
+dimensions      = 2
+min_size        = { 100, 100 }
+neighbor_radius = 1
 
 function local_evolve(x)
     local cnt = { 0, 0, 0, 0 }

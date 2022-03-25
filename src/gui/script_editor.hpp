@@ -30,14 +30,18 @@ class ScriptEditor : public QWidget {
   Q_OBJECT
  public:
   explicit ScriptEditor(QWidget* parent = nullptr);
+  virtual void keyPressEvent(QKeyEvent* event) override;
 
  public slots:
   void load_script(const QString& script);
+  void text_change_handler();
 
  private:
   QPointer<QTextEdit> editor_;
   QPointer<ScriptHighlighter> script_highlighter_;
   QPointer<QHBoxLayout> layout_;
+
+  bool has_saved_;
 };
 
 #endif

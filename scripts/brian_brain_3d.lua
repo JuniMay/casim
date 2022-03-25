@@ -1,8 +1,9 @@
-name        = "Brian's Brain 3D"
-color       = { "#000000", "#ffffff", "#0000ff" }
-state_count = 3
-dimensions  = 3
-min_size    = { 30, 30, 30 }
+name            = "Brian's Brain 3D"
+color           = { "#000000", "#ffffff", "#0000ff" }
+state_count     = 3
+dimensions      = 3
+min_size        = { 30, 30, 30 }
+neighbor_radius = 1
 
 function local_evolve(x)
     sum = 0

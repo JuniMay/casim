@@ -1,8 +1,9 @@
-name        = "Game of Life 3D"
-state_count = 2
-color       = { "#000000", "#ffffff" }
-dimensions  = 3
-min_size    = { 30, 30, 30 }
+name            = "Game of Life 3D"
+state_count     = 2
+color           = { "#000000", "#ffffff" }
+dimensions      = 3
+min_size        = { 30, 30, 30 }
+neighbor_radius = 1
 
 function local_evolve(x)
     sum = 0

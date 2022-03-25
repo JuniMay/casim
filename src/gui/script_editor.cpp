@@ -74,9 +74,41 @@ ScriptEditor::ScriptEditor(QWidget* parent) : QWidget(parent) {
 
   this->setLayout(layout_);
 
+  has_saved_ = true;
+
   layout_->addWidget(editor_);
+
+  connect(editor_, &QTextEdit::textChanged, this,
+          ScriptEditor::text_change_handler);
 }
 
 void ScriptEditor::load_script(const QString& script) {
   editor_->setText(script);
+  has_saved_ = true;
+}
+
+void ScriptEditor::text_change_handler() {
+  has_saved_ = false;
+}
+
+void ScriptEditor::keyPressEvent(QKeyEvent* event) {
+  if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_S &&
+      !has_saved_) {
+    QFileDialog dialog(this);
+    dialog.setDefaultSuffix(".lua");
+    QString path =
+        dialog.getSaveFileName(this, tr("Save Script"), ".", "*.lua");
+    //  qDebug() << path;
+    if (path == "")
+      return;
+
+    QFile file;
+    file.setFileName(path);
+
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+
+    QTextStream out(&file);
+    out << editor_->toPlainText();
+    has_saved_ = true;
+  }
 }

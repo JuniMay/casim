@@ -127,7 +127,7 @@ void Automaton::fetch_local_states(const xt::xarray<size_t>& coordinate) {
   fecth_local_states_helper(coordinate, c, 0);
 }
 
-bool Automaton::evolve_by_step() {
+bool Automaton::evolve() {
   flip_ = !flip_;
 
   lua_State* L = luaL_newstate();
@@ -135,7 +135,7 @@ bool Automaton::evolve_by_step() {
   luaL_dostring(L, script_.c_str());
   xt::xarray<size_t> c;
   c.resize({dim_});
-  bool success = evolve_by_step_helper(L, c, 0);
+  bool success = evolve_helper(L, c, 0);
   lua_close(L);
   return success;
 }
@@ -250,9 +250,28 @@ bool Automaton::fetch_min_size() {
   return true;
 }
 
+bool Automaton::fetch_neighbor_radius() {
+  lua_State* L = luaL_newstate();
+  luaL_dostring(L, script_.c_str());
+  lua_getglobal(L, "neighbor_radius");
+  if (!lua_isinteger(L, -1)) {
+    return false;
+  }
+  neighbor_radius_ = lua_tointeger(L, -1);
+
+  calc_local_states_size();
+
+  local_states_.resize({local_states_size_});
+  local_states_.fill(0);
+
+  lua_pop(L, 1);
+  lua_close(L);
+  return true;
+}
+
 bool Automaton::fetch_all() {
   if (!fetch_name()) {
-    return false;
+    // return false;
   }
   if (!fetch_state_cnt()) {
     return false;
@@ -264,6 +283,9 @@ bool Automaton::fetch_all() {
     return false;
   }
   if (!fetch_min_size()) {
+    return false;
+  }
+  if (!fetch_neighbor_radius()) {
     return false;
   }
   reset();
@@ -345,7 +367,7 @@ void Automaton::fecth_local_states_helper(const xt::xarray<size_t>& coordinate,
 // native recursive
 // TODO: use stack
 // TODO: multithreading?
-bool Automaton::evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c,
+bool Automaton::evolve_helper(lua_State*& L, xt::xarray<size_t>& c,
                                       size_t axis) {
   if (axis == dim_) {
     lua_getglobal(L, "local_evolve");
@@ -366,7 +388,7 @@ bool Automaton::evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c,
   }
   for (size_t idx = 0; idx < shape_[axis]; ++idx) {
     c[axis] = idx;
-    if (!evolve_by_step_helper(L, c, axis + 1)) {
+    if (!evolve_helper(L, c, axis + 1)) {
       return false;
     }
   }

@@ -46,7 +46,7 @@ class Automaton {
 
   void fetch_local_states(const xt::xarray<size_t>& coordinate);
   // evolve single step to next generation
-  bool evolve_by_step();
+  bool evolve();
   // fetch all config from lua script
   bool fetch_all();
   // load `*.npy` file from `path`
@@ -102,7 +102,7 @@ class Automaton {
                                  xt::xarray<size_t>& c,
                                  size_t axis);
   // yet recursive
-  bool evolve_by_step_helper(lua_State*& L, xt::xarray<size_t>& c, size_t axis);
+  bool evolve_helper(lua_State*& L, xt::xarray<size_t>& c, size_t axis);
   // calculate the size of `local_states_`
   // result will be stored at `local_states_size_`
   void calc_local_states_size();
@@ -116,6 +116,8 @@ class Automaton {
   bool fetch_dim();
   // fetch `min_size` from lua script
   bool fetch_min_size();
+  // fetch `neighbor_raidius` from lua script
+  bool fetch_neighbor_radius();
 };
 
 }  // namespace core

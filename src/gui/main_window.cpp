@@ -125,7 +125,7 @@ void MainWindow::evolve() {
 }
 
 void MainWindow::evolve_step() {
-  automaton_->evolve_by_step();
+  automaton_->evolve();
   viewer_->display_automaton();
 }
 

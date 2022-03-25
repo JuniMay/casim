@@ -1,13 +1,14 @@
-name        = "Cyclic 3D"
-state_count = 16
-color       = { 
+name            = "Cyclic 3D"
+state_count     = 16
+color           = { 
     "#000000", "#ff44aa", "#ff3333", "#ff7744", 
     "#ffaa33", "#ffcc22", "#ffff33", "#ccff33", 
     "#99ff33", "#33ff33", "#33ffaa", "#33ffdd", 
     "#33ffff", "#33ccff", "#5599ff", "#5555ff",
 }
-dimensions  = 3
-min_size    = { 35, 35, 35 }
+dimensions      = 3
+min_size        = { 35, 35, 35 }
+neighbor_radius = 1
 
 function local_evolve(x)
     sum = 0

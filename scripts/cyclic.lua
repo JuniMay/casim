@@ -8,6 +8,7 @@ color       = {
 }
 dimensions  = 2
 min_size    = { 100, 100 }
+neighbor_radius = 1
 
 function local_evolve(x)
     sum = 0
