@@ -9,5 +9,6 @@
         <file>assets/stop.png</file>
         <file>assets/reset.png</file>
         <file>assets/random.png</file>
+        <file>assets/icon.png</file>
     </qresource>
 </RCC>

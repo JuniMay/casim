@@ -1,8 +1,16 @@
+
 # CASIM
+
+![screenshot.png](./assets/screenshot.png)
 
 **C**ellular **A**utomata **SIM**ulator
 
-A simulator for cellular automata with rules from lua
+A simulator for cellular automata using lua to define rules.
+
+## Usage
+
+1. Make sure that qt and opengl is well configured
+2. `qmake && make`
 
 ## Dependencies
 
@@ -13,5 +21,5 @@ Casim depends on `xtensor` `xlt` and `lua`. The licenses of these libraries are 
 - [ ] Performance optimization
 - [ ] Auto adjusting for viewer
 - [ ] Error handling for Automaton
-- [ ] Neighbor radius from script
+- [x] Neighbor radius from script
 - [ ] Messages & information

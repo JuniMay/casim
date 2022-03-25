@@ -2,6 +2,10 @@
 #include "gui/main_window.hpp"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+
+  this->setWindowIcon(QIcon(":/assets/icon.png"));
+  this->setWindowTitle("Casim");
+
   this->resize(1080, 720);
   QPointer<QDockWidget> dock;
   viewer_ = new Viewer(this);
