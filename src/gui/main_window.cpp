@@ -133,7 +133,12 @@ void MainWindow::stop_evolve() {
 }
 
 void MainWindow::evolve_step() {
-  automaton_->evolve();
+  bool success = automaton_->evolve();
+  if (!success) {
+    logger_->log("Error occurred while evolving, stop.");
+    stop_evolve();
+    return;
+  }
   viewer_->display_automaton();
 }
 
