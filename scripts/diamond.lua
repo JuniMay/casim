@@ -1,4 +1,4 @@
-name            = "Diamon Growth"
+name            = "Diamond Growth"
 state_count     = 7
 color       = { 
     "#000000", "#0072bb", "#0067a5", "#0047ab", 

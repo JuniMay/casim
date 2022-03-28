@@ -18,8 +18,12 @@ Casim depends on `xtensor` `xlt` and `lua`. The licenses of these libraries are 
 
 ## RoadMap
 
+- [x] Neighbor radius from script
+- [x] Messages & information
 - [ ] Performance optimization
 - [ ] Auto adjusting for viewer
 - [ ] Error handling for Automaton
-- [x] Neighbor radius from script
-- [x] Messages & information
+
+## About
+
+This is my project for the assignment of computer programming class this semester. Yet some implementation in this project is crappy. Maybe I will optimize/refactor them later.
