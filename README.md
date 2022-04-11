@@ -21,6 +21,8 @@ Casim depends on `xtensor` `xlt` and `lua`. The licenses of these libraries are 
 - [x] Neighbor radius from script
 - [x] Messages & information
 - [ ] Performance optimization
+  - [ ]  (LuaJIT maybe)
+  - [ ]  (Game engine maybe)
 - [ ] Auto adjusting for viewer
 - [ ] Error handling for Automaton
 
