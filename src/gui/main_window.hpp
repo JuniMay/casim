@@ -10,47 +10,47 @@
 #include "gui/viewer.hpp"
 
 class MainWindow : public QMainWindow {
-  Q_OBJECT
- public:
-  MainWindow(QWidget* parent = nullptr);
+    Q_OBJECT
+   public:
+    MainWindow(QWidget* parent = nullptr);
 
- public slots:
-  void load_script(const QString& script);
-  void evolve();
-  void stop_evolve();
-  void evolve_step();
+   public slots:
+    void loadScript(const QString& script);
+    void evolve();
+    void stopEvolve();
+    void evolveStep();
 
-  void add_cell(const size_t& x,
-                const size_t& y,
-                const size_t& z,
-                const uint32_t& state);
-  void load_pattern();
-  void file_tree_load_pattern(const QString& path);
-  void save_pattern();
-  void reset_pattern();
-  void random_pattern();
-  void resize_automaton(const size_t& depth,
-                        const size_t& height,
-                        const size_t& width);
+    void addCell(const size_t& x,
+                 const size_t& y,
+                 const size_t& z,
+                 const uint32_t& state);
+    void loadPattern();
+    void fileTreeLoadPattern(const QString& path);
+    void savePattern();
+    void resetPattern();
+    void randomPattern();
+    void resizeAutomaton(const size_t& depth,
+                         const size_t& height,
+                         const size_t& width);
 
- private:
-  QPointer<QWidget> widget_;
+   private:
+    QPointer<QWidget> widget_;
 
-  QPointer<ScriptEditor> script_editor_;
+    QPointer<ScriptEditor> script_editor_;
 
-  QPointer<ConfigEditor> config_editor_;
+    QPointer<ConfigEditor> config_editor_;
 
-  QPointer<FileTree> file_tree_;
+    QPointer<FileTree> file_tree_;
 
-  QPointer<Viewer> viewer_;
+    QPointer<Viewer> viewer_;
 
-  QPointer<Logger> logger_;
+    QPointer<Logger> logger_;
 
-  QPointer<ToolBar> tool_bar_;
+    QPointer<ToolBar> tool_bar_;
 
-  QSharedPointer<casim::core::Automaton> automaton_;
+    QSharedPointer<casim::core::Automaton> automaton_;
 
-  QPointer<QTimer> timer_;
+    QPointer<QTimer> timer_;
 };
 
 #endif

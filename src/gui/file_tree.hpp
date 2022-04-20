@@ -4,18 +4,18 @@
 #include "gui/common.hpp"
 
 class FileTree : public QTreeView {
-  Q_OBJECT
- public:
-  explicit FileTree(QWidget* parent = nullptr);
- signals:
-  void load_script_signal(const QString& script);
-  void load_pattern_signal(const QString& path);
- public slots:
-  void open_file(const QModelIndex& index);
-  void open_folder();
+    Q_OBJECT
+   public:
+    explicit FileTree(QWidget* parent = nullptr);
+   signals:
+    void loadScriptSignal(const QString& script);
+    void loadPatternSignal(const QString& path);
+   public slots:
+    void openFile(const QModelIndex& index);
+    void openFolder();
 
- private:
-  QPointer<QFileSystemModel> model_;
+   private:
+    QPointer<QFileSystemModel> model_;
 };
 
 #endif  // CASIM_GUI_FILE_TREE_HPP_

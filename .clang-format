@@ -1,0 +1,7 @@
+---
+Language: Cpp
+BasedOnStyle: Chromium
+UseTab: Never
+IndentWidth: 4
+
+...

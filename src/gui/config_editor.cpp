@@ -1,53 +1,53 @@
 #include "gui/config_editor.hpp"
 
 ConfigEditor::ConfigEditor(QWidget* parent) : QTabWidget(parent) {
-  viewer_config_scroll_area_ = new QScrollArea(this);
-  viewer_config_ = new ViewerConfig(viewer_config_scroll_area_);
-  viewer_config_scroll_area_->setWidget(viewer_config_);
-  viewer_config_scroll_area_->setWidgetResizable(true);
-  this->addTab(viewer_config_scroll_area_, tr("Viewer"));
+    viewer_config_scroll_area_ = new QScrollArea(this);
+    viewer_config_ = new ViewerConfig(viewer_config_scroll_area_);
+    viewer_config_scroll_area_->setWidget(viewer_config_);
+    viewer_config_scroll_area_->setWidgetResizable(true);
+    this->addTab(viewer_config_scroll_area_, tr("Viewer"));
 
-  pattern_config_scroll_area_ = new QScrollArea(this);
-  pattern_config_ = new PatternConfig(pattern_config_scroll_area_);
-  pattern_config_scroll_area_->setWidget(pattern_config_);
-  pattern_config_scroll_area_->setWidgetResizable(true);
-  this->addTab(pattern_config_scroll_area_, tr("Pattern"));
+    pattern_config_scroll_area_ = new QScrollArea(this);
+    pattern_config_ = new PatternConfig(pattern_config_scroll_area_);
+    pattern_config_scroll_area_->setWidget(pattern_config_);
+    pattern_config_scroll_area_->setWidgetResizable(true);
+    this->addTab(pattern_config_scroll_area_, tr("Pattern"));
 
-  // The ConfigEditor is basicly a intermeidate for signals
-  // Qt's signals and slots are reallu annoying.
-  // If anyone knows a better solution please let me know.
-  connect(this, &ConfigEditor::viewer_yaw_changed_from_viewer, viewer_config_,
-          &ViewerConfig::set_yaw);
-  connect(this, &ConfigEditor::viewer_pitch_changed_from_viewer, viewer_config_,
-          &ViewerConfig::set_pitch);
-  connect(this, &ConfigEditor::viewer_sensitivity_changed_from_viewer,
-          viewer_config_, &ViewerConfig::set_sensitivity);
-  connect(this, &ConfigEditor::viewer_move_speed_changed_from_viewer,
-          viewer_config_, &ViewerConfig::set_move_speed);
-  connect(this, &ConfigEditor::viewer_cell_size_changed_from_viewer,
-          viewer_config_, &ViewerConfig::set_cell_size);
+    // The ConfigEditor is basicly a intermeidate for signals
+    // Qt's signals and slots are reallu annoying.
+    // If anyone knows a better solution please let me know.
+    connect(this, &ConfigEditor::viewerYawChangedFromViewer, viewer_config_,
+            &ViewerConfig::setYaw);
+    connect(this, &ConfigEditor::viewerPitchChangedFromViewer, viewer_config_,
+            &ViewerConfig::setPitch);
+    connect(this, &ConfigEditor::viewerSensitivityChangedFromViewer,
+            viewer_config_, &ViewerConfig::setSensitivity);
+    connect(this, &ConfigEditor::viewerMoveSpeedChangedFromViewer,
+            viewer_config_, &ViewerConfig::setMoveSpeed);
+    connect(this, &ConfigEditor::viewerCellSizeChangedFromViewer,
+            viewer_config_, &ViewerConfig::setCellSize);
 
-  connect(viewer_config_, &ViewerConfig::yaw_changed, this,
-          &ConfigEditor::viewer_yaw_changed_from_config);
-  connect(viewer_config_, &ViewerConfig::pitch_changed, this,
-          &ConfigEditor::viewer_pitch_changed_from_config);
-  connect(viewer_config_, &ViewerConfig::sensitivity_changed, this,
-          &ConfigEditor::viewer_sensitivity_changed_from_config);
-  connect(viewer_config_, &ViewerConfig::move_speed_changed, this,
-          &ConfigEditor::viewer_move_speed_changed_from_config);
-  connect(viewer_config_, &ViewerConfig::cell_size_changed, this,
-          &ConfigEditor::viewer_cell_size_changed_from_config);
-  connect(viewer_config_, &ViewerConfig::view_mode_changed, this,
-          &ConfigEditor::viewer_view_mode_changed_from_config);
+    connect(viewer_config_, &ViewerConfig::yawChanged, this,
+            &ConfigEditor::viewerYawChangedFromConfig);
+    connect(viewer_config_, &ViewerConfig::pitchChanged, this,
+            &ConfigEditor::viewerPitchChangedFromConfig);
+    connect(viewer_config_, &ViewerConfig::sensitivityChanged, this,
+            &ConfigEditor::viewerSensitivityChangedFromConfig);
+    connect(viewer_config_, &ViewerConfig::moveSpeedChanged, this,
+            &ConfigEditor::viewerMoveSpeedChangedFromConfig);
+    connect(viewer_config_, &ViewerConfig::cellSizeChanged, this,
+            &ConfigEditor::viewerCellSizeChangedFromConfig);
+    connect(viewer_config_, &ViewerConfig::viewModeChanged, this,
+            &ConfigEditor::viewerViewModeChangedFromConfig);
 
-  connect(pattern_config_, &PatternConfig::add_signal, this,
-          &ConfigEditor::pattern_add);
-  connect(pattern_config_, &PatternConfig::load_signal, this,
-          &ConfigEditor::pattern_load);
-  connect(pattern_config_, &PatternConfig::save_signal, this,
-          &ConfigEditor::pattern_save);
-  connect(pattern_config_, &PatternConfig::reset_signal, this,
-          &ConfigEditor::pattern_reset);
-  connect(pattern_config_, &PatternConfig::resize_signal, this,
-          &ConfigEditor::pattern_resize);
+    connect(pattern_config_, &PatternConfig::addSignal, this,
+            &ConfigEditor::patternAdd);
+    connect(pattern_config_, &PatternConfig::loadSignal, this,
+            &ConfigEditor::patternLoad);
+    connect(pattern_config_, &PatternConfig::saveSignal, this,
+            &ConfigEditor::patternSave);
+    connect(pattern_config_, &PatternConfig::resetSignal, this,
+            &ConfigEditor::patternReset);
+    connect(pattern_config_, &PatternConfig::resizeSignal, this,
+            &ConfigEditor::patternResize);
 }

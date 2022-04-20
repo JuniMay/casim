@@ -4,44 +4,44 @@
 #include "gui/common.hpp"
 
 class ScriptHighlighter : public QSyntaxHighlighter {
-  Q_OBJECT
- public:
-  explicit ScriptHighlighter(QTextDocument* parent = nullptr);
+    Q_OBJECT
+   public:
+    explicit ScriptHighlighter(QTextDocument* parent = nullptr);
 
- protected:
-  void highlightBlock(const QString& text) override;
+   protected:
+    void highlightBlock(const QString& text) override;
 
- private:
-  struct HighlightingRule {
-    QRegularExpression regex_rule;
-    QTextCharFormat format;
-  };
-  QVector<HighlightingRule> highting_rules_;
+   private:
+    struct HighlightingRule {
+        QRegularExpression regex_rule;
+        QTextCharFormat format;
+    };
+    QVector<HighlightingRule> highting_rules_;
 
-  QTextCharFormat keyword_format_;
-  QTextCharFormat function_format_;
-  QTextCharFormat string_format_;
-  QTextCharFormat number_format_;
+    QTextCharFormat keyword_format_;
+    QTextCharFormat function_format_;
+    QTextCharFormat string_format_;
+    QTextCharFormat number_format_;
 
-  // TODO: comments
+    // TODO: comments
 };
 
 class ScriptEditor : public QWidget {
-  Q_OBJECT
- public:
-  explicit ScriptEditor(QWidget* parent = nullptr);
-  virtual void keyPressEvent(QKeyEvent* event) override;
+    Q_OBJECT
+   public:
+    explicit ScriptEditor(QWidget* parent = nullptr);
+    virtual void keyPressEvent(QKeyEvent* event) override;
 
- public slots:
-  void load_script(const QString& script);
-  void text_change_handler();
+   public slots:
+    void loadScript(const QString& script);
+    void textChangedHandler();
 
- private:
-  QPointer<QTextEdit> editor_;
-  QPointer<ScriptHighlighter> script_highlighter_;
-  QPointer<QHBoxLayout> layout_;
+   private:
+    QPointer<QTextEdit> editor_;
+    QPointer<ScriptHighlighter> script_highlighter_;
+    QPointer<QHBoxLayout> layout_;
 
-  bool has_saved_;
+    bool has_saved_;
 };
 
 #endif

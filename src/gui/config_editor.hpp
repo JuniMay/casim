@@ -6,42 +6,42 @@
 #include "gui/viewer_config.hpp"
 
 class ConfigEditor : public QTabWidget {
-  Q_OBJECT
- public:
-  explicit ConfigEditor(QWidget* parent = nullptr);
+    Q_OBJECT
+   public:
+    explicit ConfigEditor(QWidget* parent = nullptr);
 
- signals:
-  // from viewer_
-  void viewer_yaw_changed_from_viewer(const float& yaw);
-  void viewer_pitch_changed_from_viewer(const float& pitch);
-  void viewer_sensitivity_changed_from_viewer(const float& sensitivity);
-  void viewer_move_speed_changed_from_viewer(const float& move_speed);
-  void viewer_cell_size_changed_from_viewer(const float& cell_size);
+   signals:
+    // from viewer_
+    void viewerYawChangedFromViewer(const float& yaw);
+    void viewerPitchChangedFromViewer(const float& pitch);
+    void viewerSensitivityChangedFromViewer(const float& sensitivity);
+    void viewerMoveSpeedChangedFromViewer(const float& move_speed);
+    void viewerCellSizeChangedFromViewer(const float& cell_size);
 
-  void pattern_add(const size_t& x,
-                   const size_t& y,
-                   const size_t& z,
-                   const uint32_t& state);
-  void pattern_load();
-  void pattern_save();
-  void pattern_reset();
-  void pattern_resize(const size_t& depth,
-                      const size_t& height,
-                      const size_t& width);
+    void patternAdd(const size_t& x,
+                    const size_t& y,
+                    const size_t& z,
+                    const uint32_t& state);
+    void patternLoad();
+    void patternSave();
+    void patternReset();
+    void patternResize(const size_t& depth,
+                       const size_t& height,
+                       const size_t& width);
 
-  // from viewer_config_
-  void viewer_yaw_changed_from_config(const float& yaw);
-  void viewer_pitch_changed_from_config(const float& pitch);
-  void viewer_sensitivity_changed_from_config(const float& sensitivity);
-  void viewer_move_speed_changed_from_config(const float& move_speed);
-  void viewer_cell_size_changed_from_config(const float& cell_size);
-  void viewer_view_mode_changed_from_config(const ViewMode& view_mode);
+    // from viewer_config_
+    void viewerYawChangedFromConfig(const float& yaw);
+    void viewerPitchChangedFromConfig(const float& pitch);
+    void viewerSensitivityChangedFromConfig(const float& sensitivity);
+    void viewerMoveSpeedChangedFromConfig(const float& move_speed);
+    void viewerCellSizeChangedFromConfig(const float& cell_size);
+    void viewerViewModeChangedFromConfig(const ViewMode& view_mode);
 
- private:
-  QPointer<QScrollArea> viewer_config_scroll_area_;
-  QPointer<QScrollArea> pattern_config_scroll_area_;
-  QPointer<PatternConfig> pattern_config_;
-  QPointer<ViewerConfig> viewer_config_;
+   private:
+    QPointer<QScrollArea> viewer_config_scroll_area_;
+    QPointer<QScrollArea> pattern_config_scroll_area_;
+    QPointer<PatternConfig> pattern_config_;
+    QPointer<ViewerConfig> viewer_config_;
 };
 
 #endif
