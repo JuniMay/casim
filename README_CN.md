@@ -1,5 +1,5 @@
 
-[English](README.md) | 简体中文
+[English](README.md) | 简体中文 | [课程大作业项目报告](课程大作业项目报告.pdf)
 
 # CASIM
 
