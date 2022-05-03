@@ -1,4 +1,6 @@
 
+English | [简体中文](README_CN.md)
+
 # CASIM
 
 ![screenshot.png](./assets/screenshot.png)
@@ -9,12 +11,19 @@ A simulator for cellular automata using lua to define rules, available for 3D CA
 
 ## Usage
 
-1. Make sure that qt and opengl is well configured
-2. `qmake && make`
+### From Release
+
+Just download from the release page and unzip to use.
+
+### Compile to Use
+
+1. Clone or download this repo;
+2. Make sure that qt and opengl is well configured;
+3. `qmake && make` or open from Qt Creator.
 
 ## Dependencies
 
-Casim depends on `xtensor` `xlt` and `lua`. The licenses of these libraries are placed under `third_party`
+Casim depends on `xtensor` `xlt` `lua` and freeglut. The licenses of these libraries are placed under `third_party`
 
 ## RoadMap
 
